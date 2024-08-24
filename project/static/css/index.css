@@ -98,7 +98,18 @@ a:active{
 }
 .logo p{
     font-size: 25px;
-
+}
+.lg_boxes{
+    background-color: blue;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.st_log{
+    background-color: yellow;
+    display: flex;
+    flex-direction: column;
 }
 
 
