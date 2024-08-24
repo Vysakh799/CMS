@@ -11,6 +11,8 @@ body{
 .logo{
     grid-area: logo;
     /* background-color: blue; */
+    display: flex ;
+    align-items: center;
 }
 .logo img {
     width:150px;
@@ -40,16 +42,77 @@ li{
 }
 ul a{
     text-decoration: none;
-    color: white;
+    color: rgb(255, 255, 255);
 }
 ul li:hover{
     transform:scale(1.1) ;
     border-bottom: 2px solid beige;
+    transition: ease 0.5s;
 }
-.menu{
+.menu, .menu1{
     display: none;
     
 }
+.links2{
+    background-color: rgb(6, 43, 5);
+    margin: 0px;
+}
+ol{
+    margin: 0px;
+}
+ol a{
+    text-decoration: none;
+    color: white;
+}
+ol a:hover li{
+    background-color: rgb(9, 70, 9);
+}
+#drop_sec{
+    display: none;
+}
+a:active{
+    color: white;
+    background-color: rgb(5, 58, 3);
+}
+.main1{
+    background-color: red;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login{
+    background-color: green;
+    width: 350px;
+    height: 350px;
+}
+.login a{
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+}
+.logo{
+    background-color: burlywood;
+    display: flex;
+    justify-content: center;
+}
+.logo p{
+    font-size: 25px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Media Query */
 
 @media (max-width:426px) {
@@ -59,5 +122,7 @@ ul li:hover{
     .menu{
         display: block;
     }
-
+    .logo img{
+        width: 100px;
+    }
 }
