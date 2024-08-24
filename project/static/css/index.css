@@ -6,12 +6,15 @@ body{
     display: grid;
     grid-template-areas: 'logo links links links';
     height: 80px;
-    background-color: rgb(5, 58, 3);
+    background-color: rgba(0, 0, 0, 0.468);
+    position: fixed;
+    width: 100%;
+    z-index: 1;
 }
 .logo{
     grid-area: logo;
     /* background-color: blue; */
-    display: flex ;
+    display: flex ; 
     align-items: center;
 }
 .logo img {
@@ -32,6 +35,7 @@ body{
     /* width: 500px; */
     justify-content: space-evenly;
     align-items: center;
+    color: white;
 
 }
 li{
@@ -54,64 +58,134 @@ ul li:hover{
     
 }
 .links2{
-    background-color: rgb(6, 43, 5);
+    background-color: rgba(0, 0, 0, 0.871);
     margin: 0px;
+}
+.drop_menu{
+    position: absolute;
+    width: 100%;
+    top: 80px;
 }
 ol{
     margin: 0px;
+    padding: 10px;
 }
 ol a{
     text-decoration: none;
     color: white;
 }
-ol a:hover li{
-    background-color: rgb(9, 70, 9);
+ol a:hover li   {
+    background-color: rgb(5, 42, 5);
 }
 #drop_sec{
     display: none;
 }
-a:active{
+#do_menu{
+    display: none;
+}
+/* a:active{
     color: white;
     background-color: rgb(5, 58, 3);
+} */
+ol li{
+    margin-top: 10px;
 }
 .main1{
-    background-color: red;
+    /* background-color: red; */
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .login{
-    background-color: green;
+    /* background-color: green; */
     width: 350px;
     height: 350px;
+    /* border: 2px solid black; */
+    background-color: rgb(230, 230, 230);
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+
 }
 .login a{
     text-decoration: none;
     color: black;
     font-weight: 600;
 }
-.logo{
-    background-color: burlywood;
+.logo1{
+    /* background-color: burlywood; */
     display: flex;
     justify-content: center;
 }
-.logo p{
+.logo1 p{
     font-size: 25px;
 }
 .lg_boxes{
-    background-color: blue;
+    /* background-color: rgb(115, 115, 130); */
     height: 100%;
-    display: flex;
+    display: flex; 
     justify-content: center;
-    align-items: center;
+     /* align-items: center; */
 }
 .st_log{
-    background-color: yellow;
+    /* background-color: rgb(187, 187, 161); */
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
+.lg_boxes input{
+    width: 300px;
+    height: 35px;
+    border-radius: 12px;
+    border: 1px solid rgb(99, 98, 98);
+}
+.lg_boxes input[type='text'],
+.lg_boxes input[type='password']{
+    padding-left: 10px;
+}
+.lg_boxes input[type='submit']{
+    background-color: green;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+}
+.lg_boxes input[type='submit']:hover{
+    background-color: rgb(12, 89, 12);
+
+}
+.goback{
+    position: absolute;
+    /* background-color: red; */
+    padding: 20px;
+}
+.goback a{
+    text-decoration: none;
+    color: rgb(23, 92, 23);
+    font-weight: 600;
+}
+.banner{
+    margin: 0px;
+    /* background-image: url(../images/TDJ.webp); */
+    background-size: cover;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1)), url('../images/TDJ.webp');   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* align-items: center; */
+}
+.banner .welcome{
+    margin-top: 75px;
+}
+.banner p{
+    margin: 0px;
+    font-size: 65px;
+    color: white;
+    font-weight: 600;
+    /* margin-top: 75px; */
+
+}
 
 
 
@@ -130,10 +204,13 @@ a:active{
     .service{
         display: none;
     }
-    .menu{
+    #do_menu{
         display: block;
     }
     .logo img{
         width: 100px;
+    }
+    .banner p{
+        font-size: 45px;
     }
 }

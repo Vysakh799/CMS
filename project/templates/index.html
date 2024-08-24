@@ -11,9 +11,7 @@
     <script>
         $(document).ready(function(){
             $("#do_menu").click(function(){
-                $("#drop_sec").show();
-                $("#do_menu").hide();
-                $("#up_menu").show();
+                $("#drop_sec").toggle(500);
             });
         });
 
@@ -31,13 +29,13 @@
                     <a href="" class="service"><li>Courses</li></a>
                     <a href="" class="service"><li>About</li></a>
                     <a href="st_login" class="service"><li>Login</li></a>
-                    <a href="" class="menu" id="do_menu"><li><i class="fa-solid fa-bars"></i></li></a>
-                    <a href="" class="menu1" id="up_menu"><li><i class="fa-solid fa-bars"></i></li></a>
+                    <li id="do_menu"><i class="fa-solid fa-bars"></i></li>
+                    <!-- <a href="" class="menu1" id="up_menu"><li><i class="fa-solid fa-bars"></i></li></a> -->
                     
                 </ul>
             </div>
         </div>
-        <div class="drop_menu" id="drop_sec">
+        <div class="drop_menu" id="drop_sec" style="display: none;">
             <div class="links2">
                 <ol>
                     <a href="" class="service1"><li>Home</li></a>
@@ -46,6 +44,10 @@
                     <a href="st_login" class="service1"><li>Login</li></a>
                 </ol>
             </div>
+        </div>
+        <div class="banner">
+            <p class="welcome">Welcome to </p>
+            <p>TDJ College Of Engineering</p>
         </div>
     </div>
 </body>
