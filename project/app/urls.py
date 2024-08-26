@@ -14,5 +14,6 @@ urlpatterns = [
     path('admin_login',views.admin_login),
     path('admin_index',views.admin_index),
     path('admstaff',views.admstaff),
-    
+    path('addstaff',views.addstaff),
+
 ]

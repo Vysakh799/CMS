@@ -39,3 +39,16 @@ def admstaff(request):
         return render(request,'admin/admstaff.html')
     else:
         return render(index)
+    
+def addstaff(request):
+    if 'adm' in request.session:
+        return render(request,'admin/addstaff.html')
+    else:
+        return redirect(index)
+
+def addbranch(request):
+    if 'adm' in request.session:
+        return render(request,'addbranch.html')
+    else:
+        return redirect(index)
+    

@@ -60,12 +60,24 @@
                 <a href=""><div class="nav1">
                     Students
                 </div></a>
+                
             </div>
             <div class="admin_part2">
             <div class="admbutton">
-                <a href="addstaff">
-                    <p>Addstaff</p>
-                </a>
+                <div class="staffadd">
+                    <form action="addstaff" method="POST" >
+                        {% csrf_token %}
+                        <input type="text" name="staffname" id="" placeholder="Staff Name">
+                        <input type="email" name="staffemail" id="" placeholder="Staff Email">
+                        <input type="text" name="staffphno" id="" placeholder="Staff PhoneNumber">
+                        <textarea name="staffaddress" id="" placeholder="Address"></textarea>
+                        <select name="branch" id="">
+                            <option value=""></option>
+                        </select>
+                        <input type="text" name="staffpassword" id="" placeholder="Password for Staff">
+                        <input type="submit" value="Add">    
+                    </form>
+                </div>
             </div>
             </div>
            </div>

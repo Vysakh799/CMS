@@ -60,12 +60,17 @@
                 <a href=""><div class="nav1">
                     Students
                 </div></a>
+                
             </div>
             <div class="admin_part2">
             <div class="admbutton">
-                <a href="addstaff">
-                    <p>Addstaff</p>
-                </a>
+                <div class="branchadd">
+                    <form action="addbranch" method="POST" >
+                        {% csrf_token %}
+                        <input type="text" name="Branch Name" id="" placeholder="Branch Name">
+                        <input type="submit" value="Add">    
+                    </form>
+                </div>
             </div>
             </div>
            </div>
