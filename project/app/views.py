@@ -32,4 +32,10 @@ def admin_index(request):
         adm=admins.objects.get(username=request.session['adm'])
         return render(request,'admin/admin_index.html',{'adm':adm})
     else:
-         return redirect(admin_login)
+         return redirect(index)
+
+def admstaff(request):
+    if 'adm' in request.session:
+        return render(request,'admin/admstaff.html')
+    else:
+        return render(index)

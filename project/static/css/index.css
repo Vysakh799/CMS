@@ -223,12 +223,14 @@ ol li{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    position: relative;
-    left: 12%;
+
     align-items: center;
     /* background-color: red; */
 }
-
+.adminlog{
+    position: relative;
+    left: 12%;
+}
 .cms_image img{
     width: 350px;
 }
@@ -336,9 +338,9 @@ footer{
 .admin_part1{
     height: 90vh;
     width: 200px;
-    background-color: black;
+    background-color: rgb(16, 48, 21);
 }
-.admin_part1 .nav1 a{
+.admin_part1 a{
     color: white;
     text-decoration: none;
 }
