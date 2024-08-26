@@ -16,42 +16,106 @@
         });
 
     </script>
+    <style>
+        .mySlides {display:none;}
+    </style>
 </head>
 <body>
     <div class="main">
-        <div class="navigation">
-            <div class="logo">
-                <img src="{% static 'images/clogo.png' %}" alt="">
+        <div class="nav">
+            <div class="navigation">
+                <div class="logo">
+                    <img src="{% static 'images/clogo.png' %}" alt="">
+                </div>
+                <div class="links">
+                    <ul>
+                        <a href="" class="service"><li>Home</li></a>
+                        <a href="" class="service"><li>Courses</li></a>
+                        <a href="" class="service"><li>About</li></a>
+                        <a href="st_login" class="service"><li>Login</li></a>
+                        <li id="do_menu"><i class="fa-solid fa-bars"></i></li>
+                        <!-- <a href="" class="menu1" id="up_menu"><li><i class="fa-solid fa-bars"></i></li></a> -->
+                        
+                    </ul>
+                </div>
             </div>
-            <div class="links">
-                <ul>
-                    <a href="" class="service"><li>Home</li></a>
-                    <a href="" class="service"><li>Courses</li></a>
-                    <a href="" class="service"><li>About</li></a>
-                    <a href="st_login" class="service"><li>Login</li></a>
-                    <li id="do_menu"><i class="fa-solid fa-bars"></i></li>
-                    <!-- <a href="" class="menu1" id="up_menu"><li><i class="fa-solid fa-bars"></i></li></a> -->
-                    
-                </ul>
-            </div>
-        </div>
-        <div class="drop_menu" id="drop_sec" style="display: none;">
-            <div class="links2">
-                <ol>
-                    <a href="" class="service1"><li>Home</li></a>
-                    <a href="" class="service1"><li>Courses</li></a>
-                    <a href="" class="service1"><li>About</li></a>
-                    <a href="st_login" class="service1"><li>Login</li></a>
-                </ol>
+            <div class="drop_menu" id="drop_sec" style="display: none;">
+                <div class="links2">
+                    <ol>
+                        <a href="" class="service1"><li>Home</li></a>
+                        <a href="" class="service1"><li>Courses</li></a>
+                        <a href="" class="service1"><li>About</li></a>
+                        <a href="st_login" class="service1"><li>Login</li></a>
+                    </ol>
+                </div>
             </div>
         </div>
         <div class="banner">
             <p class="welcome">Welcome to </p>
             <p>TDJ College Of Engineering</p>
         </div>
-        <div class="vission">
-            .vision
+        <div class="ads">
+            <div class="images" >
+                <img class="mySlides" src="{% static 'images/Cad1.png' %}" style="width:100%">
+                <img class="mySlides" src="{% static 'images/Cad2.png' %}"" style="width:100%">
+                <img class="mySlides" src="{% static 'images/Cad3.png' %}"" style="width:100%">
+            </div>
         </div>
+        <div class="vision">
+            <div class="v_main">
+                <div class="part1">
+                    <img src="{% static 'images/vision.jpg' %}" alt="">
+                </div>
+                <div class="part2">
+                    <p>"To be a leading institution in engineering education and research, fostering innovation and excellence. We aspire to cultivate visionary leaders and pioneers who will address global challenges with cutting-edge technology and sustainable solutions. By creating an inclusive and dynamic learning environment, we aim to empower our students and faculty to drive technological advancements, contribute to societal progress, and lead with integrity and purpose."</p>
+                </div>
+            </div>
+        </div>
+        <div class="vision" style="margin-top: 20px;">
+            <div class="v_main">
+                <div class="mpart1">
+                    <p>"Our mission is to advance engineering education and research by fostering innovation and excellence. We are dedicated to developing visionary leaders who address global challenges through cutting-edge technology and sustainable solutions. We commit to creating an inclusive and dynamic learning environment that empowers students and faculty to drive technological progress and contribute to societal advancement with integrity and purpose."</p>
+                </div>
+                <div class="mpart2">
+                    <img src="{% static 'images/mission2.jpg' %}" alt="">
+                </div>
+                
+            </div>
+        </div>
+        <footer>
+            <div class="contact">
+                <h4>Contact us</h4>
+                <p>Address : Kaloor, Eranamkulam, Kerala, India</p>
+                <p>Phone : 0495-233768</p>
+                <p>Email : tdjcollege@gmail.com</p>
+            </div>
+            <div class="clg_name">
+                <p>TDJ College Of Engineering</p>
+                <p>Since 1998</p>
+            </div>
+            <div class="icons">
+                <div class="icon"><i class="fa-brands fa-instagram"></i></div>
+                <div class="icon"><i class="fa-brands fa-facebook"></i></div>
+                <div class="icon"><i class="fa-brands fa-whatsapp"></i></div>
+                <div class="icon"><i class="fa-brands fa-youtube"></i></div>
+            </div>
+        </footer>
     </div>
+    <script>
+        var myIndex = 0;
+        carousel();
+        
+        function carousel() {
+          var i;
+          var x = document.getElementsByClassName("mySlides");
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";  
+          }
+          myIndex++;
+          if (myIndex > x.length) {myIndex = 1}    
+          x[myIndex-1].style.display = "block";  
+          setTimeout(carousel, 5000); // Change image every 2 seconds
+        }
+        </script>
 </body>
 </html>

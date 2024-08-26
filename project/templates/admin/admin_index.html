@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <script src="https://kit.fontawesome.com/7da30b5c41.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#do_menu").click(function(){
+                $("#drop_sec").toggle(500);
+            });
+        });
+
+    </script>
+    <style>
+        .mySlides {display:none;}
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="nav">
+            <div class="navigation" style="background-color: black;">
+                <div class="logo">
+                    <img src="{% static 'images/clogo.png' %}" alt="">
+                </div>
+                <div class="links">
+                    <ul>
+                        <a href="" class="service"><li>Home</li></a>
+                        <a href="" class="service"><li>About</li></a>
+                        <a href="" class="service"><li>Messeges</li></a>
+                        <a href="st_login" class="service"><li>Logout</li></a>
+                        <li id="do_menu"><i class="fa-solid fa-bars"></i></li>
+                        <!-- <a href="" class="menu1" id="up_menu"><li><i class="fa-solid fa-bars"></i></li></a> -->
+                    </ul>
+                </div>
+            </div>
+            <div class="drop_menu" id="drop_sec" style="display: none;">
+                <div class="links2">
+                    <ol>
+                        <a href="" class="service1"><li>Home</li></a>
+                        <a href="" class="service1"><li>About</li></a>
+                        <a href="" class="service1"><li>Messeges</li></a>
+                        <a href="" class="service1"><li>Logout</li></a>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="admin_main">
+            <div class="admin_part1">
+                <div class="nav1">
+                    <a href="">Staffs</a>
+                </div>
+                <div class="nav1">
+                    <a href="">Students</a>
+                </div>
+            </div>
+            <div class="admin_part2">
+            <h1>Welcome {{adm.username}}</h1>
+           </div>
+        </div>
+        <footer style="margin: 0px;">
+            <div class="contact">
+                <h4>Contact us</h4>
+                <p>Address : Kaloor, Eranamkulam, Kerala, India</p>
+                <p>Phone : 0495-233768</p>
+                <p>Email : tdjcollege@gmail.com</p>
+            </div>
+            <div class="clg_name">
+                <p>TDJ College Of Engineering</p>
+                <p>Since 1998</p>
+            </div>
+            <div class="icons">
+                <div class="icon"><i class="fa-brands fa-instagram"></i></div>
+                <div class="icon"><i class="fa-brands fa-facebook"></i></div>
+                <div class="icon"><i class="fa-brands fa-whatsapp"></i></div>
+                <div class="icon"><i class="fa-brands fa-youtube"></i></div>
+            </div>
+        </footer>
+    </div>
+    
+</body>
+</html>

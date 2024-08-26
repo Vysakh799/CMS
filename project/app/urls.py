@@ -11,5 +11,6 @@ urlpatterns = [
     path('staff',views.staff_login),
 
     #Admin
-    path('admin',views.admin_login),
+    path('admin_login',views.admin_login),
+    path('admin_index',views.admin_index),
 ]

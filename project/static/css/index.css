@@ -2,12 +2,17 @@
 body{
     margin: 0px;
 }
+.nav{
+    position: fixed;
+    top: 0px;
+    width: 100%;
+}
 .navigation{
     display: grid;
     grid-template-areas: 'logo links links links';
     height: 80px;
     background-color: rgba(0, 0, 0, 0.468);
-    position: fixed;
+    /* position: fixed; */
     width: 100%;
     z-index: 1;
 }
@@ -62,9 +67,9 @@ ul li:hover{
     margin: 0px;
 }
 .drop_menu{
-    position: absolute;
+    position: relative;
     width: 100%;
-    top: 80px;
+    top: 0px;
 }
 ol{
     margin: 0px;
@@ -192,9 +197,10 @@ ol li{
     background-size: cover;
     height: 100vh;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
-    padding-right: 50px;
+    /* padding-right: 50px; */
+
 }
 .cmsimag{
     /* background-color: black; */
@@ -216,17 +222,134 @@ ol li{
 .login_main{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    position: relative;
+    left: 12%;
     align-items: center;
+    /* background-color: red; */
 }
 
 .cms_image img{
     width: 350px;
 }
 .staff_main{
-    background-color:red;
+    /* background-color:red; */
     background-image: url(../images/cms_Staff_banner.png);
     background-size: cover;
 }
+.ads{
+    /* background-color: red; */
+    padding: 20px 0px 20px 0px;
+}
+/* .ads img{
+    border-radius: 20px;
+} */
+.ads{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.images{
+    width: 100%;
+}
+.images img{
+    height: 400px;
+}
+.vision{
+    /* background-color: blue; */
+    display: flex;
+    justify-content: center;
+}
+.v_main{
+    max-width: 60%;
+    display: flex;
+    background-color: rgb(159, 159, 159);
+    border-radius: 20px;
+}
+.part1{
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+}
+.part1 img{
+    width: 90%;
+    border-radius: 20px 0px 0px 20px;
+}
+.mpart1{
+    flex: 1;
+}
+.mpart2{
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+.mpart2 img{
+    width: 90%;
+    border-radius: 0px 20px 20px 0px;
+}
+.part2, .mpart1{
+    padding: 10px;
+    flex: 1;
+    font-size: 19px;
+}
+
+footer{
+    margin-top: 20px;
+    background-color: rgb(51, 49, 49);
+    color: white;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px;
+}
+.icons{
+    display: flex;
+    /* background-color: red; */
+    width: 100px;
+    justify-content: space-between;
+}
+.contact{
+    /* background-color: blue; */
+    width: 80%;
+    padding-left: 20px;
+}
+.clg_name{
+    /* background-color: red; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+.clg_name p{
+    margin: 0px;
+}
+.admin_main{
+    height: 90vh;
+    margin-top: 80px;
+    /* background-color: red; */
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+.admin_part1{
+    height: 90vh;
+    width: 200px;
+    background-color: black;
+}
+.admin_part1 .nav1 a{
+    color: white;
+    text-decoration: none;
+}
+.nav1{
+    /* background-color: green; */
+    padding: 10px;
+}
+
+
+
+
 
 
 
@@ -234,9 +357,41 @@ ol li{
 
 
 /* Media Query */
+@media (min-width:2560px){
+    .links ul li{
+        font-size: 30px;
+    }
+    .banner p{
+        font-size: 85px;
+    }
+    .logo img{
+        width: 200px;
+    }
+    .navigation{
+        height: 100px;
+    }
+    .banner .welcome{
+        margin-top: 95px;
+    }
+    .images img{
+        height: 600px;
+    }
+    .v_main p{
+        font-size: 30px;
+    }
+    footer{
+        font-size: 20px;
+    }
+}
 @media (max-width:790px){
     .banner p{
         font-size: 55px;
+    }
+    /* .ads{
+        padding: 20px 5% 20px 5%;
+    } */
+    .v_main{
+        max-width: 80%;
     }
 }
 @media (max-width:426px) {
@@ -252,9 +407,37 @@ ol li{
     .banner p{
         font-size: 35px;
     }
+    .banner{
+        height: 80vh;
+    }
     .main2{
         justify-content: center;
         padding: 0px;
+    }
+    .ads{
+        padding: 0px;
+        padding-top: 10px;
+    }
+    .images{
+        width: 100%;
+    }
+    .images img{
+        height: 200px;
+    }
+    .v_main{
+        flex-direction: column;
+        margin-top: 10px;
+    }
+    .part1 img{
+        width: 100%;
+        border-radius: 20px 20px 0px 0px;
+    }
+    .mpart2 img{
+        width: 100%;
+        border-radius: 0px 0px 20px 20px;
+    }
+    .login_main{
+        position:static;
     }
 }
 
