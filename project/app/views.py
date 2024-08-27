@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from .models import *
 import bcrypt
+from django.contrib import messages
+
 # Create your views here.
 
 def index(request):
@@ -36,19 +38,53 @@ def admin_index(request):
 
 def admstaff(request):
     if 'adm' in request.session:
-        return render(request,'admin/admstaff.html')
+        branches=Branches.objects.filter(aname=admins.objects.get(username=request.session['adm']))
+        return render(request,'admin/admstaff.html',{'branches':branches})
     else:
         return render(index)
     
 def addstaff(request):
     if 'adm' in request.session:
-        return render(request,'admin/addstaff.html')
+        branches=Branches.objects.filter(aname=admins.objects.get(username=request.session['adm']))
+        if request.method=='POST':
+            staffname=request.POST['staffname']
+            staffemail=request.POST['staffemail']
+            staffphno=request.POST['staffphno']
+            staffaddress=request.POST['staffaddress']
+            bname=request.POST['branch']
+            staffpassword=request.POST['staffpassword']
+
+
+        return render(request,'admin/addstaff.html',{'branches':branches})
     else:
         return redirect(index)
 
+
 def addbranch(request):
     if 'adm' in request.session:
-        return render(request,'addbranch.html')
+        adm=admins.objects.get(username=request.session['adm'])
+        if request.method=='POST':
+            bname=request.POST['branchname']
+            data=Branches.objects.create(aname=adm,bname=bname)
+            data.save()
+        return redirect(admbranch)
+    else:
+        return redirect(index)
+
+
+def admbranch(request):
+    if 'adm' in request.session:
+        # messages.warning(request,"Branch Deleted")
+        data=Branches.objects.filter(aname=admins.objects.get(username=request.session['adm']))
+        return render(request,'admin/addbranch.html',{'data':data})
+    else:
+        return redirect(index)
+    
+def deletebranch(request,pk):
+    if 'adm' in request.session:
+        Branches.objects.get(pk=pk).delete()
+        messages.add_message(request,messages.INFO, "Branch Deleted" ,extra_tags="danger")
+        return redirect(admbranch)
     else:
         return redirect(index)
     

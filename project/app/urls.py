@@ -15,5 +15,8 @@ urlpatterns = [
     path('admin_index',views.admin_index),
     path('admstaff',views.admstaff),
     path('addstaff',views.addstaff),
+    path('addbranch',views.addbranch),
+    path('admbranch',views.admbranch),
+    path('deletebranch/<pk>',views.deletebranch),
 
 ]

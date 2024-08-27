@@ -63,6 +63,14 @@
             </div>
             <div class="admin_part2">
             <div class="admbutton">
+                <div class="select">
+                    <select name="branch" id="">
+                        <option value="" disabled selected>Select Branch</option>
+                        {% for i in branches %}
+                            <option value="{{i.baname}}">{{i.bname}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <a href="addstaff">
                     <p>Addstaff</p>
                 </a>

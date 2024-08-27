@@ -72,7 +72,10 @@
                         <input type="text" name="staffphno" id="" placeholder="Staff PhoneNumber">
                         <textarea name="staffaddress" id="" placeholder="Address"></textarea>
                         <select name="branch" id="">
-                            <option value=""></option>
+                            <option value="" disabled selected>Select branch</option>
+                            {% for i in branches %}
+                                <option value="{{i.bname}}">{{i.bname}}</option>
+                            {% endfor %}
                         </select>
                         <input type="text" name="staffpassword" id="" placeholder="Password for Staff">
                         <input type="submit" value="Add">    
