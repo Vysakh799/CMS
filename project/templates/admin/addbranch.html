@@ -62,26 +62,13 @@
                 <a href="../admstaff"><div class="nav1">
                     Staffs
                 </div></a>
-                <a href=""><div class="nav1">
+                <a href="../viewstudents"><div class="nav1">
                     Students
                 </div></a>
                 
             </div>
             <div class="admin_part2">
-                <div class="messege1" style="position: absolute; top: 10px;" id="messegediv">
-                    {% if messages%}
-                    {% for message in messages%}    
-                    <div class="messegebranch" role="alert">
-                      <div class="messege">
-                        <strong>{{ message }}</strong>
-                      </div>
-                      <div class="closebutton">
-                        <i class="fa-solid fa-xmark" id="closebutton" style="cursor: pointer;"></i>
-                      </div>
-                    </div>
-                    {%endfor%}
-                    {%endif%}
-                    </div>
+                
             <div class="admbutton">
                 <div class="branchadd">
                     <form action="addbranch" method="POST" >
@@ -93,16 +80,32 @@
                 <div class="branches">
                     <table>
                         <tr>
+                            <th>Sl.no</th>
                             <th>Branch Name</th>
                         </tr>
                         {% for i in data %}
                         <tr>
+                            <td>{{forloop.counter}}</td>
                             <td>{{i.bname}}</td>
                             <td><a href="../deletebranch/{{i.pk}}" onclick="return confirm('Are you sure you want to delete this?')"><i class="fa-solid fa-trash"></i></a></td>
                         </tr>
                         {% endfor %}
                     </table>
                 </div>
+            </div>
+            <div class="messege1"  id="messegediv">
+                {% if messages%}
+                {% for message in messages%}    
+                <div class="messegebranch" role="alert">
+                  <div class="messege">
+                    <strong>{{ message }}</strong>
+                  </div>
+                  <div class="closebutton">
+                    <i class="fa-solid fa-xmark" id="closebutton" style="cursor: pointer;"></i>
+                  </div>
+                </div>
+                {%endfor%}
+                {%endif%}
             </div>
             </div>
            </div>

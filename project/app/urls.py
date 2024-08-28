@@ -9,6 +9,9 @@ urlpatterns = [
 
     #Staff
     path('staff',views.staff_login),
+    path('staffindex',views.staffindex),
+    path('addstudents',views.addstudents),
+    path('staff_viewstudents',views.staff_viewstudents),
 
     #Admin
     path('admin_login',views.admin_login),
@@ -18,5 +21,6 @@ urlpatterns = [
     path('addbranch',views.addbranch),
     path('admbranch',views.admbranch),
     path('deletebranch/<pk>',views.deletebranch),
+    path('viewstudents',views.viewstudents),
 
 ]

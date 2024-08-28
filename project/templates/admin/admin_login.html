@@ -7,8 +7,15 @@
     <title>Login | Student</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <script src="https://kit.fontawesome.com/7da30b5c41.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    
+    <script>
+        $(document).ready(function(){
+            $("#closebutton").click(function(){
+                $("#messegediv").hide(500);
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="goback">
@@ -37,6 +44,20 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="messege1 messege2"  id="messegediv">
+        {% if messages%}
+        {% for message in messages%}    
+        <div class="messegebranch" role="alert">
+          <div class="messege">
+            <strong>{{ message }}</strong>
+          </div>
+          <div class="closebutton">
+            <i class="fa-solid fa-xmark" id="closebutton" style="cursor: pointer;"></i>
+          </div>
+        </div>
+        {%endfor%}
+        {%endif%}
     </div>
 </body>
 </html>

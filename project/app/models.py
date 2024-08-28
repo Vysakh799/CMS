@@ -22,13 +22,21 @@ class Staff(models.Model):
     staffbranch=models.ForeignKey(Branches,on_delete=models.CASCADE)
     staffpassword=models.TextField()
 
+    def __str__(self):
+        return self.staffname
+
 class Sem(models.Model):
     semno=models.TextField()
+    def __str__(self):
+        return self.semno
 
 class Subject(models.Model):
     bname=models.ForeignKey(Branches,on_delete=models.CASCADE)
     sem=models.ForeignKey(Sem,on_delete=models.CASCADE)
     subjectname=models.TextField()
+
+    def __str__(self):
+        return self.subjectname
 
 class Student(models.Model):
     staffname=models.ForeignKey(Staff,on_delete=models.CASCADE)
@@ -40,6 +48,10 @@ class Student(models.Model):
     stemail=models.TextField()
     stphno=models.TextField()
     staddress=models.TextField()
+    stpassword=models.TextField(null=True)
+
+    def __str__(self):
+        return self.stname
 
 class Semexam(models.Model):
     sem=models.ForeignKey(Sem,on_delete=models.CASCADE)

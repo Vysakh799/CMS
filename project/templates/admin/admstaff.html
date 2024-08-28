@@ -51,29 +51,57 @@
         </div>
         <div class="admin_main">
             <div class="admin_part1">
-                <a href=""><div class="nav1">
+                <a href="../addbranch"><div class="nav1">
                     Branches
                 </div></a>
-                <a href=""><div class="nav1">
+                <a href="../admstaff"><div class="nav1">
                     Staffs
                 </div></a>
-                <a href=""><div class="nav1">
+                <a href="../viewstudents"><div class="nav1">
                     Students
                 </div></a>
             </div>
             <div class="admin_part2">
             <div class="admbutton">
                 <div class="select">
-                    <select name="branch" id="">
-                        <option value="" disabled selected>Select Branch</option>
-                        {% for i in branches %}
-                            <option value="{{i.baname}}">{{i.bname}}</option>
-                        {% endfor %}
-                    </select>
+                    <form action="../admstaff" method="POST">
+                        {% csrf_token %}
+                        <select name="branch" id="">
+                            <option value="" disabled selected>Select branch</option>
+                            {% for i in branches %}
+                                <option value="{{i.bname}}">{{i.bname}}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="submit" value="search">
+                    </form>
+
                 </div>
                 <a href="addstaff">
                     <p>Addstaff</p>
                 </a>
+                <div class="staffs">
+                    <table>
+                        <tr>
+                            <th>Sl.no</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phno</th>
+                            <th>Address</th>
+                            <th>Branch</th>
+                        </tr>
+                        {% for i in staffs %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{i.staffname}}</td>
+                            <td>{{i.staffemail}}</td>
+                            <td>{{i.staffphno}}</td>
+                            <td>{{i.staffaddress}}</td>
+                            <td>{{i.staffbranch.bname}}</td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
             </div>
             </div>
            </div>

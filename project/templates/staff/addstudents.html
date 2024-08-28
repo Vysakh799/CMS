@@ -14,7 +14,11 @@
                 $("#drop_sec").toggle(500);
             });
         });
-
+        $(document).ready(function(){
+            $("#closebutton").click(function(){
+                $("#messegediv").hide(500);
+            });
+        });
     </script>
     <style>
         .mySlides {display:none;}
@@ -31,7 +35,7 @@
                     <ul>
                         <a href="" class="service"><li>Home</li></a>
                         <a href="" class="service"><li>About</li></a>
-                        <a href="" class="service"><li>Messeges</li></a>
+                        <a href="" class="service"><li>Contact</li></a>
                         <a href="st_login" class="service"><li>Logout</li></a>
                         <li id="do_menu"><i class="fa-solid fa-bars"></i></li>
                         <!-- <a href="" class="menu1" id="up_menu"><li><i class="fa-solid fa-bars"></i></li></a> -->
@@ -43,7 +47,7 @@
                     <ol>
                         <a href="" class="service1"><li>Home</li></a>
                         <a href="" class="service1"><li>About</li></a>
-                        <a href="" class="service1"><li>Messeges</li></a>
+                        <a href="" class="service1"><li>Contact</li></a>
                         <a href="" class="service1"><li>Logout</li></a>
                     </ol>
                 </div>
@@ -51,28 +55,56 @@
         </div>
         <div class="admin_main">
             <div class="admin_part1">
-                <a href="../admbranch"><div class="nav1">
-                    Branches
-                </div></a>
-                <a href="../admstaff"><div class="nav1">
-                    Staffs
-                </div></a>
-                <a href="../viewstudents"><div class="nav1">
+                <a href="../staff_viewstudents"><div class="nav1">
                     Students
                 </div></a>
+                <a href=""><div class="nav1">
+                    Exam
+                </div></a>
+                <!-- <a href="../viewstudents"><div class="nav1">
+                    Students
+                </div></a> -->
             </div>
             <div class="admin_part2">
-            <h1>Welcome {{adm.username}}</h1>
-            <!-- <div class="parts">
-                
-                <a href="../admstaff"><div class="admpart1">
-                    <p>Staff</p>
-                </div></a>
-                <a href=""><div class="admpart2">
-                    <p>Student</p>
-                </div></a>
-            </div> -->
+            <div class="form">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="stname" placeholder="Name">
+                    <input type="text" name="stregno" id="" placeholder="Reg.no">
+                    <input type="text" name="stadmno" id="" placeholder="Adm.no">
+                    <select name="branch" id="">
+                        <option value="" disabled selected>Select the branch</option>
+                        {% for i in branches %}
+                        <option value="{{i.bname}}">{{i.bname}}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="sem" id="">
+                        <option value="" disabled selected>Select Sem</option>
+                        {% for i in sem %}
+                        <option value="{{i.semno}}">{{i.semno}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="email" name="stemail" id="" placeholder="Email"><br>
+                    <input type="text" name="stphno" id="" placeholder="Phone Number">
+                    <input type="text" name="staddress" id="" placeholder="Address">
+                    <input type="submit" value="Add">
+                </form>
+            </div>
            </div>
+           <div class="messege1"  id="messegediv">
+            {% if messages%}
+            {% for message in messages%}    
+            <div class="messegebranch" role="alert">
+              <div class="messege">
+                <strong>{{ message }}</strong>
+              </div>
+              <div class="closebutton">
+                <i class="fa-solid fa-xmark" id="closebutton" style="cursor: pointer;"></i>
+              </div>
+            </div>
+            {%endfor%}
+            {%endif%}
+        </div>
         </div>
         <footer style="margin: 0px;">
             <div class="contact">

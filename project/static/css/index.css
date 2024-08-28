@@ -351,6 +351,9 @@ footer{
 .admin_part2{
     /* background-color: red; */
     width: 100%;
+    /* display: flex;
+    justify-content:space-between */
+    
 }
 .messege1{
     margin: 0px;
@@ -358,14 +361,20 @@ footer{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color:rgb(244, 76, 76);
-    width: 50%;
+    /* background-color:rgb(244, 76, 76); */
+    width: 30%;
     height: 40px;
     padding: 10px;
     padding-left: 15px;
     border-radius: 25px;
-    color: white;
-    border: 2px solid white;
+    right: 0px;
+    color: rgb(0, 0, 0);
+
+    /* border: 2px solid rgb(15, 15, 15); */
+}
+.messege2{
+    top: 0px;
+    right: 0px;
 }
 .messegebranch{
     /* background-color: rgba(255, 0, 0, 0.389); */

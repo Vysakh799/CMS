@@ -14,7 +14,11 @@
                 $("#drop_sec").toggle(500);
             });
         });
-
+        $(document).ready(function(){
+            $("#closebutton").click(function(){
+                $("#messegediv").hide(500);
+            });
+        });
     </script>
     <style>
         .mySlides {display:none;}
@@ -51,13 +55,13 @@
         </div>
         <div class="admin_main">
             <div class="admin_part1">
-                <a href=""><div class="nav1">
+                <a href="../addbranch"><div class="nav1">
                     Branches
                 </div></a>
-                <a href=""><div class="nav1">
+                <a href="../admstaff"><div class="nav1">
                     Staffs
                 </div></a>
-                <a href=""><div class="nav1">
+                <a href="../viewstudents"><div class="nav1">
                     Students
                 </div></a>
                 
@@ -81,6 +85,21 @@
                         <input type="submit" value="Add">    
                     </form>
                 </div>
+            </div>
+            <div class="messege1"  id="messegediv">
+                {% if messages%}
+                {% for message in messages%}    
+                <div class="messegebranch" role="alert">
+                  <div class="messege">
+                    <strong>{{ message }}</strong>
+                  </div>
+                  <div class="closebutton">
+                    <i class="fa-solid fa-xmark" id="closebutton" style="cursor: pointer;"></i>
+                  </div>
+                </div>
+                {%endfor%}
+                {%endif%}
+            </div>
             </div>
             </div>
            </div>
