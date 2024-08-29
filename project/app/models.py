@@ -12,6 +12,8 @@ class Branches(models. Model):
     aname=models.ForeignKey(admins,on_delete=models.CASCADE)
     bname=models.TextField()
 
+    def __str__(self):
+        return self.bname
 
 class Staff(models.Model):
     aname=models.ForeignKey(admins,on_delete=models.CASCADE)
@@ -56,9 +58,10 @@ class Student(models.Model):
 class Semexam(models.Model):
     sem=models.ForeignKey(Sem,on_delete=models.CASCADE)
     subname=models.ForeignKey(Subject,on_delete=models.CASCADE)
-    stname=models.ForeignKey(Student,on_delete=models.CASCADE)
+    stud=models.ForeignKey(Student,on_delete=models.CASCADE)
     mark=models.IntegerField()
     bname=models.ForeignKey(Branches,on_delete=models.CASCADE)
+    staffname=models.ForeignKey(Staff,on_delete=models.CASCADE)
     
 
 

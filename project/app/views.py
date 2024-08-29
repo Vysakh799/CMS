@@ -115,7 +115,21 @@ def deletebranch(request,pk):
 def viewstudents(request):
     if 'adm' in request.session:
         staffs=Staff.objects.filter(aname=admins.objects.get(username=request.session['adm']))
-        return render(request,'admin/viewstudents.html',{'staffs':staffs})
+        if request.method=='POST':
+            staff=request.POST['staff']
+            stf=Staff.objects.get(staffname=staff)
+            data=Student.objects.filter(staffname=stf)
+        else:
+            data=Student.objects.all()
+        return render(request,'admin/viewstudents.html',{'staffs':staffs,'data':data})
+    else:
+        return redirect(index)
+
+def deletestudent(request,pk):
+    if 'adm' in request.session:
+        Student.objects.get(pk=pk).delete()
+        messages.add_message(request,messages.INFO, "Student Deleted" ,extra_tags="danger")
+        return redirect(viewstudents)
     else:
         return redirect(index)
     
@@ -174,9 +188,64 @@ def addstudents(request):
             messages.success(request,"Email sent ! ")
         return render(request,'staff/addstudents.html',{'sem':sems,'branches':branches})
     
-    
 
 def staff_viewstudents(request):
     staff=Staff.objects.get(staffname=request.session['stf'])
     students=Student.objects.filter(staffname=staff)
     return render(request,'staff/staff_viewstudents.html',{'students':students})
+
+
+def admsubjects(request):
+    if 'stf' in request.session:
+        sems=Sem.objects.all()
+        # branches=Branches.objects.all()
+        staff=Staff.objects.get(staffname=request.session['stf'])
+        if request.method=='POST':
+            subject=request.POST['subjectname']
+            sem=request.POST['sem']
+            ssem=Sem.objects.get(semno=sem)
+            data=Subject.objects.create(bname=staff.staffbranch,sem=ssem,subjectname=subject)
+            data.save()
+            messages.success(request,"Subject added")
+    return render(request,'staff/admsubjects.html',{'sem':sems})
+
+def viewsubjects(request):
+    if 'stf' in request.session:
+        sems=Sem.objects.all()
+        # branches=Branches.objects.all()
+        staff=Staff.objects.get(staffname=request.session['stf'])
+
+        if request.method=="POST":
+            sem=request.POST['sem']
+            subjects=Subject.objects.filter(bname=staff.staffbranch,sem=Sem.objects.get(semno=sem))  
+        else:
+            subjects=Subject.objects.filter(bname=staff.staffbranch)
+        return render(request,'staff/viewsubjects.html',{'sems':sems,'subjects':subjects})
+    else:
+        return redirect(index)
+
+def examviewresult(request):
+
+    return render(request,'staff/examviewresult.html')
+
+def examaddresult(request):
+    if 'stf' in request.session:
+        sems=Sem.objects.all()
+        staff=Staff.objects.get(staffname=request.session['stf'])
+        students=Student.objects.filter(staffname=staff)
+        subjects=Subject.objects.filter(bname=staff.staffbranch)
+        if request.method=='POST':
+            subjectname=request.POST['subjectname']
+            mark=request.POST['mark']
+            sem=request.POST['sem']
+            regno=request.POST['stregno']
+            bname=staff.staffbranch
+            data=Semexam.objects.create(sem=Sem.objects.get(semno=sem),subname=Subject.objects.get(subjectname=subjectname),stud=Student.objects.get(stregno=regno),mark=mark,bname=bname,staffname=staff)
+            data.save()
+            messages.success(request,"Exam result added")
+
+            # print(staff.staffbranch)
+            # stname=request.POST[]
+        return render(request,'staff/examaddresult.html',{'sem':sems,'regno':students,'subjects':subjects})
+    else:
+        return redirect(index)

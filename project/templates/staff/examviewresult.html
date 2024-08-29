@@ -14,13 +14,11 @@
                 $("#drop_sec").toggle(500);
             });
         });
-        $(document).ready(function(){
-            $("#closebutton").click(function(){
-                $("#messegediv").hide(500);
-            });
-        });
 
     </script>
+    <style>
+        .mySlides {display:none;}
+    </style>
 </head>
 <body>
     <div class="main">
@@ -33,7 +31,7 @@
                     <ul>
                         <a href="" class="service"><li>Home</li></a>
                         <a href="" class="service"><li>About</li></a>
-                        <a href="" class="service"><li>Messeges</li></a>
+                        <a href="" class="service"><li>Contact</li></a>
                         <a href="st_login" class="service"><li>Logout</li></a>
                         <li id="do_menu"><i class="fa-solid fa-bars"></i></li>
                         <!-- <a href="" class="menu1" id="up_menu"><li><i class="fa-solid fa-bars"></i></li></a> -->
@@ -45,7 +43,7 @@
                     <ol>
                         <a href="" class="service1"><li>Home</li></a>
                         <a href="" class="service1"><li>About</li></a>
-                        <a href="" class="service1"><li>Messeges</li></a>
+                        <a href="" class="service1"><li>Contact</li></a>
                         <a href="" class="service1"><li>Logout</li></a>
                     </ol>
                 </div>
@@ -53,48 +51,33 @@
         </div>
         <div class="admin_main">
             <div class="admin_part1">
-                <a href="../admbranch"><div class="nav1">
-                    Branches
-                </div></a>
-                <a href="../admstaff"><div class="nav1">
-                    Staffs
-                </div></a>
-                <a href=""><div class="nav1">
+                <a href="../viewstudents"><div class="nav1">
                     Students
                 </div></a>
-                
+                <a href="../viewsubjects"><div class="nav1">
+                    Subjects
+                </div></a>
+                <a href=""><div class="nav1">
+                    Exam
+                </div></a>
             </div>
             <div class="admin_part2">
-                
-            <div class="admbutton">
-                <div class="branchadd">
-                    <form action="viewstudents" method="POST" >
-                        {% csrf_token %}
-                        <select name="staff" id="">
-                            <option value="" disabled selected>Select Staff</option>
-                            {% for i in staffs %}
-                            <option value="{{i.staffname}}">{{i.staffname}}</option>
-                            {% endfor %}
-                        </select>
-                        <input type="submit" value="Search">    
-                    </form>
-                </div>
-                <div class="branches">
-                    <table>
-                        <tr>
-                            <th>Sl.no</th>
-                            <th>AdmNo</th>
-                            <th>RegNo</th>
-                            <th>Name</th>
-                            <th>Branch</th>
-                            <th>Sem</th>
-                            <th>Email</th>
-                            <th>Phno</th>
-                            <th>Address</th>
-                            <th>Staff</th>
-                        </tr>
-                        {% for i in data %}
-                        <tr>
+            <a href="../examaddresult">examaddresult</a>
+            <div class="viewstudents">
+                <table>
+                    <tr>
+                        <th>Sl.no</th>
+                        <th>AdmNo</th>
+                        <th>RegNo</th>
+                        <th>Name</th>
+                        <th>Branch</th>
+                        <th>Sem</th>
+                        <th>Email</th>
+                        <th>Phno</th>
+                        <th>Address</th>
+                    </tr>
+                    {% for i in students %}
+                    <tr>
                         <td>{{forloop.counter}}</td>
                         <td>{{i.stadmno}}</td>
                         <td>{{i.stregno}}</td>
@@ -104,29 +87,12 @@
                         <td>{{i.stemail}}</td>
                         <td>{{i.stphno}}</td>
                         <td>{{i.staddress}}</td>
-                        <td>{{i.staffname.staffname}}</td>
-                            <td><a href="../deletestudent/{{i.pk}}" onclick="return confirm('Are you sure you want to delete this?')"><i class="fa-solid fa-trash"></i></a></td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
-            <div class="messege1"  id="messegediv">
-                {% if messages%}
-                {% for message in messages%}    
-                <div class="messegebranch" role="alert">
-                  <div class="messege">
-                    <strong>{{ message }}</strong>
-                  </div>
-                  <div class="closebutton">
-                    <i class="fa-solid fa-xmark" id="closebutton" style="cursor: pointer;"></i>
-                  </div>
-                </div>
-                {%endfor%}
-                {%endif%}
-            </div>
-            </div>
+                    </tr>
+                    {% endfor %}
+                </table>
+               </div>
            </div>
+           
         </div>
         <footer style="margin: 0px;">
             <div class="contact">

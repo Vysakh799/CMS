@@ -51,21 +51,22 @@
         </div>
         <div class="admin_main">
             <div class="admin_part1">
-                <a href=""><div class="nav1">
+                <a href="../viewstudents"><div class="nav1">
                     Students
+                </div></a>
+                <a href="../viewsubjects"><div class="nav1">
+                    Subjects
                 </div></a>
                 <a href=""><div class="nav1">
                     Exam
                 </div></a>
-                <!-- <a href="../viewstudents"><div class="nav1">
-                    Students
-                </div></a> -->
             </div>
             <div class="admin_part2">
             <a href="../addstudents">addstudents</a>
             <div class="viewstudents">
                 <table>
                     <tr>
+                        <th>Sl.no</th>
                         <th>AdmNo</th>
                         <th>RegNo</th>
                         <th>Name</th>
@@ -77,6 +78,7 @@
                     </tr>
                     {% for i in students %}
                     <tr>
+                        <td>{{forloop.counter}}</td>
                         <td>{{i.stadmno}}</td>
                         <td>{{i.stregno}}</td>
                         <td>{{i.stname}}</td>

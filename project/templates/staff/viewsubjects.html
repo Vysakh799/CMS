@@ -21,6 +21,9 @@
         });
 
     </script>
+    <style>
+        .mySlides {display:none;}
+    </style>
 </head>
 <body>
     <div class="main">
@@ -53,59 +56,51 @@
         </div>
         <div class="admin_main">
             <div class="admin_part1">
-                <a href="../admbranch"><div class="nav1">
-                    Branches
+                <a href="../staff_viewstudents"><div class="nav1">
+                    Students
                 </div></a>
-                <a href="../admstaff"><div class="nav1">
-                    Staffs
+                <a href="../viewsubjects"><div class="nav1">
+                    Subjects
                 </div></a>
                 <a href=""><div class="nav1">
-                    Students
+                    Exam
                 </div></a>
                 
             </div>
             <div class="admin_part2">
                 
             <div class="admbutton">
-                <div class="branchadd">
-                    <form action="viewstudents" method="POST" >
+                <div class="admsubject">
+                    <a href="../admsubjects">Add Subjects</a>
+                </div>
+                <div class="filtration">
+                    <form action="../viewsubjects" method="POST">
                         {% csrf_token %}
-                        <select name="staff" id="">
-                            <option value="" disabled selected>Select Staff</option>
-                            {% for i in staffs %}
-                            <option value="{{i.staffname}}">{{i.staffname}}</option>
+                        <select name="sem" id="">
+                            <option value="" disabled selected>Select sem</option>
+                            {% for i in sems %}
+                            <option value="{{i.semno}}">{{i.semno}}</option>
                             {% endfor %}
                         </select>
-                        <input type="submit" value="Search">    
+                        <input type="submit" value="search">
                     </form>
                 </div>
                 <div class="branches">
                     <table>
                         <tr>
                             <th>Sl.no</th>
-                            <th>AdmNo</th>
-                            <th>RegNo</th>
-                            <th>Name</th>
                             <th>Branch</th>
                             <th>Sem</th>
-                            <th>Email</th>
-                            <th>Phno</th>
-                            <th>Address</th>
-                            <th>Staff</th>
+                            <th>Subject</th>
                         </tr>
-                        {% for i in data %}
+                        {% for i in subjects %}
                         <tr>
-                        <td>{{forloop.counter}}</td>
-                        <td>{{i.stadmno}}</td>
-                        <td>{{i.stregno}}</td>
-                        <td>{{i.stname}}</td>
-                        <td>{{i.bname.bname}}</td>
-                        <td>{{i.ssem.semno}}</td>
-                        <td>{{i.stemail}}</td>
-                        <td>{{i.stphno}}</td>
-                        <td>{{i.staddress}}</td>
-                        <td>{{i.staffname.staffname}}</td>
-                            <td><a href="../deletestudent/{{i.pk}}" onclick="return confirm('Are you sure you want to delete this?')"><i class="fa-solid fa-trash"></i></a></td>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{i.bname.bname}}</td>
+                            <td>{{i.sem.semno}}</td>
+                            <td>{{i.subjectname}}</td>
+                            
+                            <td><a href="../deletebranch/{{i.pk}}" onclick="return confirm('Are you sure you want to delete this?')"><i class="fa-solid fa-trash"></i></a></td>
                         </tr>
                         {% endfor %}
                     </table>
