@@ -351,8 +351,10 @@ footer{
 .admin_part2{
     /* background-color: red; */
     width: 100%;
-    /* display: flex;
-    justify-content:space-between */
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    flex-direction: column;
     
 }
 .messege1{
@@ -387,9 +389,55 @@ footer{
 .closebutton{
     flex: 1;
 }
+.data{
+    background-color: rgba(135, 135, 135, 0.707);
+    padding: 20px;
+    border-radius: 20px;
+}
+select{
+    width: 50%;
+    height: 30px;
+    border-radius: 10px;
+}
+input[type='submit']{
+    background-color: green;
+    border: none;
+    height: 30px;
+    width: 60px;
+    border-radius: 10px;
+    color: white;
+}
+table{
+    background-color: rgb(255, 255, 255);
+    width: 900px;
+    text-align: center;
+    border-collapse: collapse;
+    font-size: 17px;
+    overflow: auto;
+}
+table tr:nth-child(even){
+    background-color: rgb(199, 199, 199);
+}
+table td{
+    padding: 5px;
+}
 
-
-
+.viewstudents table{
+    width: 1000px;
+}
+.add{
+    /* background-color: red; */
+    /* width: 100%; */
+    /* position: relative; */
+    display: flex;
+    justify-content: flex-end;
+}
+.lg_boxes input[type='submit']{
+    width: 90%;
+}
+.forgotpsw{
+    font-size: 13px;
+}
 
 
 

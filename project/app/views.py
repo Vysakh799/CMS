@@ -8,13 +8,88 @@ from django.conf import settings
 # Create your views here.
 
 def index(request):
-    # print(request.session['adm'])
-    return render(request,'index.html')
+    try:
+        std=request.session['std']
+    except:
+        std=False
+    return render(request,'index.html',{'std':std})
+#Student
+
 
 def st_login(request):
+    if request.method=='POST':
+        username=request.POST['username']
+        password=request.POST['password']
+        psw=password.encode('utf-8')
+        print(password,username)
+        try:
+            student=Student.objects.get(stregno=username)
+            if bcrypt.checkpw(psw,student.stpassword.encode('utf-8')):
+                    request.session['std']=student.stname
+                    print("logged in ")
+                    if student.setnewpsw==True:
+                        return redirect(index)
+                    else:
+                        return redirect(studentnewpassword)
+            else:
+                    print('error')
+                    messages.add_message(request,messages.INFO, "Incorrect Password" ,extra_tags="danger")
+        except:
+            messages.add_message(request,messages.INFO, "Incorrect Username or Password" ,extra_tags="danger")
 
     return render(request,'student/student_login.html')
 
+def st_logout(request):
+    if 'std' in request.session:
+        del request.session['std']
+        return redirect(index)
+    else:
+        return render(index)
+    
+
+def studentnewpassword(request):
+    if 'std' in request.session:
+        if request.method=='POST':
+            password=request.POST['password']
+            cnfpassword=request.POST['cnfpassword']
+            # student=Student.objects.get(stname=request.session['std'])
+            if password==cnfpassword:
+                psw=password.encode('utf-8')
+                salt=bcrypt.gensalt()               #Password Hashing
+                psw_hashed=bcrypt.hashpw(psw,salt)  
+                Student.objects.filter(stname=request.session['std']).update(stpassword=psw_hashed.decode('utf-8'),setnewpsw=True)
+                return redirect(index)
+            else:
+                messages.add_message(request,messages.INFO, "Password dosent match" ,extra_tags="danger")
+                
+        return render(request,'student/studentnewpassword.html')
+    else:
+        return redirect(index)
+def stexamresultview(request):
+    if 'std' in request.session:
+        try:
+            std=request.session['std']
+        except:
+            std=False
+        sems=Sem.objects.all()
+        if request.method=='POST':
+            sem=request.POST['sem']
+            examresult=Semexam.objects.filter(stud=Student.objects.get(stname=request.session['std']),sem=sem)
+
+        else:
+            semexam=Semexam.objects.filter(stud=Student.objects.get(stname=request.session['std']))
+            sem=[]
+            for i in semexam:
+                sem.append(i.sem.semno)
+            bigsem=max(sem)
+            # print(bigsem)
+            ssem=Sem.objects.get(semno=bigsem)
+            examresult=Semexam.objects.filter(stud=Student.objects.get(stname=request.session['std']),sem=ssem)
+    return render(request,'student/stexamresultview.html',{'std':std,'examresult':examresult,'sems':sems})
+
+
+
+#Admin
 
 
 def admin_login(request):
@@ -132,7 +207,8 @@ def deletestudent(request,pk):
         return redirect(viewstudents)
     else:
         return redirect(index)
-    
+
+
 
 
 #STAFF
@@ -177,7 +253,10 @@ def addstudents(request):
             staddress=request.POST['staddress']
             branch=Branches.objects.get(bname=bname)
             sem=Sem.objects.get(semno=ssem)
-            data=Student.objects.create(staffname=Staff.objects.get(staffname=request.session['stf']),stname=stname,stphno=stphno,stregno=stregno,stadmno=stadmno,bname=branch,ssem=sem,stemail=stemail,staddress=staddress)
+            psw=stadmno.encode('utf-8')
+            salt=bcrypt.gensalt()               #Password Hashing
+            psw_hashed=bcrypt.hashpw(psw,salt)
+            data=Student.objects.create(staffname=Staff.objects.get(staffname=request.session['stf']),stname=stname,stphno=stphno,stregno=stregno,stadmno=stadmno,bname=branch,ssem=sem,stemail=stemail,staddress=staddress,stpassword=psw_hashed.decode('utf-8'))
             data.save()
             subject='TDJ College Of Engineering'
             path="http://127.0.0.1:8000/st_login"
@@ -225,8 +304,16 @@ def viewsubjects(request):
         return redirect(index)
 
 def examviewresult(request):
-
-    return render(request,'staff/examviewresult.html')
+    if 'stf' in request.session:
+        sem=Sem.objects.all()
+        staff=Staff.objects.get(staffname=request.session['stf'])
+        if request.method=='POST':
+            ssem=request.POST['sem']
+            examresult=Semexam.objects.filter(staffname=staff,sem=ssem)
+            # print(examresult)
+        else:
+            examresult=Semexam.objects.filter(staffname=staff)
+    return render(request,'staff/examviewresult.html',{'sem':sem,'examresult':examresult})
 
 def examaddresult(request):
     if 'stf' in request.session:
@@ -249,3 +336,25 @@ def examaddresult(request):
         return render(request,'staff/examaddresult.html',{'sem':sems,'regno':students,'subjects':subjects})
     else:
         return redirect(index)
+
+def staffforgetpswmail(request):
+    if request.method=='POST':
+        email=request.POST['email']
+        try:
+            data=Staff.objects.get(staffemail=email)
+            subject='CMS Forgot password'
+            path="http://127.0.0.1:8000/staffnewpassword"
+            message = f"To set new password click the link below!!\n\n {path}"
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list= [data.staffemail,]
+            send_mail(subject,message,email_from,recipient_list)
+            request.session['newpsw']=data.staffemail
+            messages.success(request,"Email sent ! ")
+        except:
+            messages.success(request,"Email doesn't match ! ")
+    return render(request,'staff/staffforgetpswmail.html')
+
+def staffnewpassword(request):
+    # if 'newpsw' in request.session:/
+
+    return render(request,'staff/staffnewpassword.html')

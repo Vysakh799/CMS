@@ -23,18 +23,24 @@
 <body>
     <div class="main">
         <div class="nav">
-            <div class="navigation" style="background-color: rgb(16, 48, 21);">
+            <div class="navigation">
                 <div class="logo">
                     <img src="{% static 'images/clogo.png' %}" alt="">
                 </div>
                 <div class="links">
                     <ul>
                         <a href="" class="service"><li>Home</li></a>
+                        <a href="" class="service"><li>Courses</li></a>
                         <a href="" class="service"><li>About</li></a>
-                        <a href="" class="service"><li>Contact</li></a>
-                        <a href="st_login" class="service"><li>Logout</li></a>
+                        {% if std %}
+                        <a href="../stexamresultview" class="service"><li>Exam Result</li></a>
+                        <a href="st_logout" class="service"><li> Logout </li></a>
+                        {% else %}
+                        <a href="st_login" class="service"><li> Login </li></a>
+                        {% endif %}
                         <li id="do_menu"><i class="fa-solid fa-bars"></i></li>
                         <!-- <a href="" class="menu1" id="up_menu"><li><i class="fa-solid fa-bars"></i></li></a> -->
+                        
                     </ul>
                 </div>
             </div>
@@ -42,73 +48,45 @@
                 <div class="links2">
                     <ol>
                         <a href="" class="service1"><li>Home</li></a>
+                        <a href="" class="service1"><li>Courses</li></a>
                         <a href="" class="service1"><li>About</li></a>
-                        <a href="" class="service1"><li>Contact</li></a>
-                        <a href="" class="service1"><li>Logout</li></a>
+                        <a href="st_login" class="service1"><li>Login</li></a>
                     </ol>
                 </div>
             </div>
         </div>
-        <div class="admin_main">
-            <div class="admin_part1">
-                <a href="../viewstudents"><div class="nav1">
-                    Students
-                </div></a>
-                <a href="../viewsubjects"><div class="nav1">
-                    Subjects
-                </div></a>
-                <a href="../examviewresult"><div class="nav1">
-                    Exam
-                </div></a>
-            </div>
-            <div class="admin_part2">
-            <a href="../examaddresult">examaddresult</a>
-            <div class="search">
-                <form action="../examviewresult" method="POST">
+        <div class="banner">
+            <div class="data" style="margin-top: 200px;">
+                <form action="../stexamresultview" method="POST">
                     {% csrf_token %}
                     <select name="sem" id="">
-                        <option value="" disabled selected>Select Sem</option>
-                        {% for i in sem %}
+                        <option value="" selected disabled>Select Sem</option>
+                        {% for i in sems %}
                         <option value="{{i.semno}}">{{i.semno}}</option>
                         {% endfor %}
                     </select>
                     <input type="submit" value="Search">
                 </form>
-            </div>
-            <div class="viewstudents">
-                <table>
+                <table style="margin-top: 10px;">
                     <tr>
                         <th>Sl.no</th>
-                        <!-- <th>AdmNo</th> -->
-                        <th>RegNo</th>
-                        <th>Name</th>
-                        <th>Branch</th>
+                        <th>Reg.no</th>
                         <th>Subject</th>
                         <th>Mark</th>
-                        <th>Sem</th>
-                        <!-- <th>Phno</th>
-                        <th>Address</th> -->
                     </tr>
-                    {% for i in examresult %}
                     <tr>
+                        {% for i in examresult %}
                         <td>{{forloop.counter}}</td>
                         <td>{{i.stud.stregno}}</td>
-                        <td>{{i.stud.stname}}</td>
-                        <td>{{i.bname.bname}}</td>
                         <td>{{i.subname.subjectname}}</td>
                         <td>{{i.mark}}</td>
-                        <td>{{i.sem.semno}}</td>
-                        <!-- <td>{{i.stemail}}</td>
-                        <td>{{i.stphno}}</td>
-                        <td>{{i.staddress}}</td> -->
+                        {% endfor %}
                     </tr>
-                    {% endfor %}
                 </table>
-               </div>
-           </div>
-           
+            </div>
         </div>
-        <footer style="margin: 0px;">
+        
+        <footer>
             <div class="contact">
                 <h4>Contact us</h4>
                 <p>Address : Kaloor, Eranamkulam, Kerala, India</p>
@@ -127,6 +105,21 @@
             </div>
         </footer>
     </div>
-    
+    <script>
+        var myIndex = 0;
+        carousel();
+        
+        function carousel() {
+          var i;
+          var x = document.getElementsByClassName("mySlides");
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";  
+          }
+          myIndex++;
+          if (myIndex > x.length) {myIndex = 1}    
+          x[myIndex-1].style.display = "block";  
+          setTimeout(carousel, 5000); // Change image every 2 seconds
+        }
+        </script>
 </body>
 </html>

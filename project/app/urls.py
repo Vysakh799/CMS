@@ -6,6 +6,9 @@ urlpatterns = [
 
     #Student
     path('st_login',views.st_login),
+    path('studentnewpassword',views.studentnewpassword),
+    path('st_logout',views.st_logout),
+    path('stexamresultview',views.stexamresultview),
 
     #Staff
     path('staff',views.staff_login),
@@ -16,6 +19,8 @@ urlpatterns = [
     path('viewsubjects',views.viewsubjects),
     path('examviewresult',views.examviewresult),
     path('examaddresult',views.examaddresult),
+    path('staffforgetpswmail',views.staffforgetpswmail),
+    path('staffnewpassword',views.staffnewpassword),
     
     #Admin
     path('admin_login',views.admin_login),

@@ -51,6 +51,8 @@ class Student(models.Model):
     stphno=models.TextField()
     staddress=models.TextField()
     stpassword=models.TextField(null=True)
+    setnewpsw=models.BooleanField(default=False)
+    
 
     def __str__(self):
         return self.stname
