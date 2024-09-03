@@ -1,6 +1,16 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Handjet&display=swap');
 body{
     margin: 0px;
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+
+}
+.main{
+    background-color: rgb(26, 76, 26);
+    /* color: white; */
 }
 .nav{
     position: fixed;
@@ -11,7 +21,7 @@ body{
     display: grid;
     grid-template-areas: 'logo links links links';
     height: 80px;
-    background-color: rgba(0, 0, 0, 0.468);
+    background-color: rgba(4, 30, 7, 0.845);
     /* position: fixed; */
     width: 100%;
     z-index: 1;
@@ -175,23 +185,95 @@ ol li{
     /* background-image: url(../images/TDJ.webp); */
     background-size: cover;
     height: 100vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1)), url('../images/TDJ.webp');   
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('../images/TDJ.webp');   
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* align-items: center; */
+    /* justify-content: center; */
+    font-family: "Anton", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 .banner .welcome{
     margin-top: 75px;
 }
-.banner p{
+.welcome{
     margin: 0px;
-    font-size: 65px;
+    font-size: 100px;
     color: rgb(255, 255, 255);
     font-weight: 600;
+    letter-spacing: 5px;
     /* margin-top: 75px; */
 
 }
+.box{
+    background-color: rgba(66, 66, 66, 0.392);
+    padding: 10px;
+    color: rgb(255, 255, 255);
+    border-radius: 20px;
+    font-size: 21px;
+    font-family: "Handjet", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+      "ELGR" 1,
+      "ELSH" 2;
+}
+.author{
+    /* background-color: red; */
+    display: flex;
+    justify-content: flex-end;
+}
+.author p{
+    margin: 0px;
+}
+.whatsapp{
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+}
+.whatsapp img{
+    width: 60px;
+}
+.boxes{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+.need{
+    background-color: rgba(4, 30, 7, 0.845);
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    color: white;
+}
+.need:hover{
+    background-color: rgba(16, 100, 26, 0.845);
+
+}
+.need p{
+    font-size: 25px;
+    font-weight: 500;
+    flex: 1;
+    text-align: center;
+}
+.need .icons{
+    /* background-color: red; */
+    flex: 1;
+    font-size: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 .main2{
     background-image: url('../images/banner-admin2.png');
     background-size: cover;
@@ -248,11 +330,19 @@ ol li{
 } */
 .ads{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+.ads p{
+    font-size: 55px;
+    font-weight: 500;
+    font-style: italic;
+    margin: 0px;
+    color: white;
+}
 .images{
-    width: 100%;
+    width: 80%;
 }
 .images img{
     height: 500px;
@@ -470,6 +560,24 @@ table td{
         font-size: 20px;
     }
 }
+@media (max-width:1025px){
+    .welcome {
+        font-size: 80px;
+    }
+    .images img{
+        height: 400px;
+    }
+    .v_main p{
+        font-size: 15px;
+    }
+    .need{
+        width: 180px;
+        height: 180px;
+    }
+    .need p{
+        font-size: 20px;
+    }
+}
 @media (max-width:790px){
     .banner p{
         font-size: 55px;
@@ -479,6 +587,15 @@ table td{
     } */
     .v_main{
         max-width: 80%;
+    }
+    .box p{
+        font-size: 18px;
+    }
+    .ads p{
+        font-size: 30px;
+    }
+    .images img{
+        height: 300px;
     }
 }
 @media (max-width:426px) {
@@ -525,6 +642,10 @@ table td{
     }
     .login_main{
         position:static;
+    }
+    .welcome{
+        font-size: 10px; 
+        /* start from here */
     }
 }
 
