@@ -14,6 +14,11 @@
                 $("#drop_sec").toggle(500);
             });
         });
+        $(document).ready(function(){
+            $("#closebutton").click(function(){
+                $("#messegediv").hide(500);
+            });
+        });
 
     </script>
     <style>
@@ -31,8 +36,7 @@
                     <ul>
                         <a href="" class="service"><li>Home</li></a>
                         <a href="" class="service"><li>About</li></a>
-                        <a href="../admin_viewmessege" class="service"><li>Messeges</li>{% if msg_count is 0 %}{% else %} <p id="msgcount">{{msg_count}}</p>{% endif %}</a>
-                        
+                        <a href="" class="service"><li>Messeges</li></a>
                         <a href="st_login" class="service"><li>Logout</li></a>
                         <li id="do_menu"><i class="fa-solid fa-bars"></i></li>
                         <!-- <a href="" class="menu1" id="up_menu"><li><i class="fa-solid fa-bars"></i></li></a> -->
@@ -61,18 +65,43 @@
                 <a href="../viewstudents"><div class="nav1">
                     Students
                 </div></a>
+                
             </div>
             <div class="admin_part2">
-            <h1>Welcome {{adm.username}}</h1>
-            <!-- <div class="parts">
-                
-                <a href="../admstaff"><div class="admpart1">
-                    <p>Staff</p>
-                </div></a>
-                <a href=""><div class="admpart2">
-                    <p>Student</p>
-                </div></a>
-            </div> -->
+                <table>
+                    <tr>
+                        <td>Sl.no</td>
+                        <td>Name</td>
+                        <td>Subject</td>
+                        <td>Messege</td>
+                        <td>Date</td>
+                    </tr>
+                    {% for i in messeges %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.subject}}</td>
+                        <td>{{i.messege}}</td>
+                        <td>{{i.date}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="messege1"  id="messegediv">
+                {% if messages%}
+                {% for message in messages%}    
+                <div class="messegebranch" role="alert">
+                  <div class="messege">
+                    <strong>{{ message }}</strong>
+                  </div>
+                  <div class="closebutton">
+                    <i class="fa-solid fa-xmark" id="closebutton" style="cursor: pointer;"></i>
+                  </div>
+                </div>
+                {%endfor%}
+                {%endif%}
+            </div>
+            </div>
            </div>
         </div>
         <footer style="margin: 0px;">

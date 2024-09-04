@@ -23,19 +23,25 @@
 <body>
     <div class="main">
         <div class="nav">
-            <div class="navigation" style="background-color: rgb(16, 48, 21);">
+            <div class="navigation">
                 <div class="logo">
                     <img src="{% static 'images/clogo.png' %}" alt="">
                 </div>
                 <div class="links">
                     <ul>
                         <a href="" class="service"><li>Home</li></a>
+                        <a href="" class="service"><li>Courses</li></a>
+                        <a href="" class="service"><li>Contact</li></a>
                         <a href="" class="service"><li>About</li></a>
-                        <a href="../admin_viewmessege" class="service"><li>Messeges</li>{% if msg_count is 0 %}{% else %} <p id="msgcount">{{msg_count}}</p>{% endif %}</a>
-                        
-                        <a href="st_login" class="service"><li>Logout</li></a>
+                        {% if std %}
+                        <a href="../stexamresultview" class="service"><li>Exam Result</li></a>
+                        <a href="st_logout" class="service"><li> Logout </li></a>
+                        {% else %}
+                        <a href="st_login" class="service"><li> Login </li></a>
+                        {% endif %}
                         <li id="do_menu"><i class="fa-solid fa-bars"></i></li>
                         <!-- <a href="" class="menu1" id="up_menu"><li><i class="fa-solid fa-bars"></i></li></a> -->
+                        
                     </ul>
                 </div>
             </div>
@@ -43,39 +49,51 @@
                 <div class="links2">
                     <ol>
                         <a href="" class="service1"><li>Home</li></a>
+                        <a href="" class="service1"><li>Courses</li></a>                        
+                        <a href="" class="service1"><li>Contact</li></a>
                         <a href="" class="service1"><li>About</li></a>
-                        <a href="" class="service1"><li>Messeges</li></a>
-                        <a href="" class="service1"><li>Logout</li></a>
+                        <a href="st_login" class="service1"><li>Login</li></a>
                     </ol>
                 </div>
             </div>
         </div>
-        <div class="admin_main">
-            <div class="admin_part1">
-                <a href="../admbranch"><div class="nav1">
-                    Branches
-                </div></a>
-                <a href="../admstaff"><div class="nav1">
-                    Staffs
-                </div></a>
-                <a href="../viewstudents"><div class="nav1">
-                    Students
-                </div></a>
+        <div class="banner">
+            <p class="welcome cnt_main">
+            TDJ College Of Engineering</p>
+            <div class="whatsapp">
+                <a href="https://wa.me/+917994634647" target="_blank"><img src="{% static 'images/whtsp.png' %}" alt=""></a>
             </div>
-            <div class="admin_part2">
-            <h1>Welcome {{adm.username}}</h1>
-            <!-- <div class="parts">
-                
-                <a href="../admstaff"><div class="admpart1">
-                    <p>Staff</p>
-                </div></a>
-                <a href=""><div class="admpart2">
-                    <p>Student</p>
-                </div></a>
-            </div> -->
-           </div>
+            <div class="cnt_box">
+                <form action="../contact" method="POST">
+                    {% csrf_token %}
+                    <table>
+                        <tr style="text-align: center; font-size: 25px;">
+                            <td>Contact</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="Name" placeholder="Name">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="Subject" id="" placeholder="Subject">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <textarea name="messege" id="" placeholder="Messege" rows="10" cols="40"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="submit" value="Send"></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
         </div>
-        <footer style="margin: 0px;">
+        
+        <footer>
             <div class="contact">
                 <h4>Contact us</h4>
                 <p>Address : Kaloor, Eranamkulam, Kerala, India</p>
@@ -94,6 +112,6 @@
             </div>
         </footer>
     </div>
-    
+
 </body>
 </html>

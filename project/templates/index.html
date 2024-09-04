@@ -31,6 +31,7 @@
                     <ul>
                         <a href="" class="service"><li>Home</li></a>
                         <a href="" class="service"><li>Courses</li></a>
+                        <a href="contact" class="service"><li>Contact</li></a>
                         <a href="" class="service"><li>About</li></a>
                         {% if std %}
                         <a href="../stexamresultview" class="service"><li>Exam Result</li></a>
@@ -48,7 +49,8 @@
                 <div class="links2">
                     <ol>
                         <a href="" class="service1"><li>Home</li></a>
-                        <a href="" class="service1"><li>Courses</li></a>
+                        <a href="" class="service1"><li>Courses</li></a>                        
+                        <a href="" class="service1"><li>Contact</li></a>
                         <a href="" class="service1"><li>About</li></a>
                         <a href="st_login" class="service1"><li>Login</li></a>
                     </ol>
@@ -65,15 +67,23 @@
                 </div>
             </div>
             <div class="whatsapp">
-                <img src="{% static 'images/whtsp.png' %}" alt="">
+                <a href="https://wa.me/+917994634647" target="_blank"><img src="{% static 'images/whtsp.png' %}" alt=""></a>
             </div>
         </div>
         <div class="ads">
             <p>Our Specialities</p>
             <div class="images" >
-                <img class="mySlides" src="{% static 'images/Cad1.png' %}" style="width:100%">
-                <img class="mySlides" src="{% static 'images/Cad2.png' %}"" style="width:100%">
-                <img class="mySlides" src="{% static 'images/Cad3.png' %}"" style="width:100%">
+                <div class="mySlides carousel-slide ">
+                    <img src="{% static 'images/Cad1.png' %}" style="width:100%">
+                </div>
+                
+                <div class="mySlides carousel-slide ">
+                    <img src="{% static 'images/Cad2.png' %}" style="width:100%">
+                </div>
+                
+                <div class="mySlides carousel-slide ">
+                    <img src="{% static 'images/Cad3.png' %}" style="width:100%">
+                </div>
             </div>
         </div>
         <div class="boxes">
@@ -139,19 +149,33 @@
     </div>
     <script>
         var myIndex = 0;
-        carousel();
-        
-        function carousel() {
-          var i;
-          var x = document.getElementsByClassName("mySlides");
-          for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";  
-          }
-          myIndex++;
-          if (myIndex > x.length) {myIndex = 1}    
-          x[myIndex-1].style.display = "block";  
-          setTimeout(carousel, 5000); // Change image every 2 seconds
-        }
+carousel();
+
+function carousel() {
+    var i;
+    var slides = document.getElementsByClassName("carousel-slide");
+    
+    for (i = 0; i < slides.length; i++) {
+        slides[i].classList.remove('slide-in', 'slide-out');
+        slides[i].style.display = "none";  
+    }
+
+    myIndex++;
+    if (myIndex > slides.length) { myIndex = 1; }
+
+    slides[myIndex - 1].style.display = "block";
+    slides[myIndex - 1].classList.add('slide-in');
+    
+    // Handle the previous slide transition
+    if (myIndex > 1) {
+        slides[myIndex - 2].classList.add('slide-out');
+    } else {
+        slides[slides.length - 1].classList.add('slide-out');
+    }
+    
+    setTimeout(carousel, 5000); // Change image every 5 seconds
+}
+
         </script>
 </body>
 </html>

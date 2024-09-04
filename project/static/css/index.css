@@ -9,13 +9,14 @@ body{
 
 }
 .main{
-    background-color: rgb(26, 76, 26);
+    background-color: rgb(255, 255, 255);
     /* color: white; */
 }
 .nav{
     position: fixed;
     top: 0px;
     width: 100%;
+    z-index: 10;
 }
 .navigation{
     display: grid;
@@ -24,7 +25,7 @@ body{
     background-color: rgba(4, 30, 7, 0.845);
     /* position: fixed; */
     width: 100%;
-    z-index: 1;
+    /* z-index: 10; */
 }
 .logo{
     grid-area: logo;
@@ -157,7 +158,8 @@ ol li{
     border: 1px solid rgb(99, 98, 98);
 }
 .lg_boxes input[type='text'],
-.lg_boxes input[type='password']{
+.lg_boxes input[type='password'],
+.lg_boxes input[type='email']{
     padding-left: 10px;
 }
 .lg_boxes input[type='submit']{
@@ -256,6 +258,8 @@ ol li{
 }
 .need:hover{
     background-color: rgba(16, 100, 26, 0.845);
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    transition: ease 0.5s;
 
 }
 .need p{
@@ -333,6 +337,7 @@ ol li{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: -1;
 }
 .ads p{
     font-size: 55px;
@@ -343,9 +348,51 @@ ol li{
 }
 .images{
     width: 80%;
+    transition: opacity 1s ease-in-out;
+    overflow: hidden;
+    z-index: 0;
+}
+.mySlides {
+    display: none;
+    /* position: absolute; */
+    width: 100%;
+    height: 100%;
+    transition: opacity 1s ease-in-out; /* Smooth transition */
+    z-index: -1;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%); /* Start from right */
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0); /* Slide into place */
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0); /* Start from current position */
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-100%); /* Slide out to the left */
+        opacity: 0;
+    }
+}
+
+.slide-in {
+    animation: slideIn 1s forwards; /* Smooth sliding in */
+}
+
+.slide-out {
+    animation: slideOut 1s forwards; /* Smooth sliding out */
 }
 .images img{
     height: 500px;
+    border-radius: 15px;
 }
 .vision{
     /* background-color: blue; */
@@ -497,20 +544,7 @@ input[type='submit']{
     border-radius: 10px;
     color: white;
 }
-table{
-    background-color: rgb(255, 255, 255);
-    width: 900px;
-    text-align: center;
-    border-collapse: collapse;
-    font-size: 17px;
-    overflow: auto;
-}
-table tr:nth-child(even){
-    background-color: rgb(199, 199, 199);
-}
-table td{
-    padding: 5px;
-}
+
 
 .viewstudents table{
     width: 1000px;
@@ -528,8 +562,51 @@ table td{
 .forgotpsw{
     font-size: 13px;
 }
+.cnt_main{
+    font-size: 60px;
+}
+.cnt_box{
+    background-color: rgba(66, 66, 66, 0.392);
+    padding: 10px 12px;
+    color: rgb(255, 255, 255);
+    border-radius: 20px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    /* width: 600px; */
+}
+.cnt_box input{
+    width: 95% ;
+    height: 30px;
+    border-radius: 15px;
+    padding-left: 10px;
+    /* background-color: transparent; */
+    border: 1px solid rgb(255, 255, 255);
+}
+.cnt_box textarea{
+    width: 95%;
+    border-radius: 15px;
+    padding-left: 10px;
+    /* background-color: transparent; */
+}
+.cnt_box form table{
+    width: 100%;
+}
+#msgcount{
+    background-color: red;
+    position: absolute;
+    padding: 5px;
+    border-radius: 20px;
+    font-size: 12px;
+    top: 2px;
+    right: 90px;
 
-
+}
 
 
 

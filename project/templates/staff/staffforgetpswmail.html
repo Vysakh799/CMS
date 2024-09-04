@@ -7,7 +7,7 @@
     <title>Login | Staff</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <script src="https://kit.fontawesome.com/7da30b5c41.js" crossorigin="anonymous"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
         $(document).ready(function(){
             $("#closebutton").click(function(){
@@ -21,7 +21,6 @@
         <a href="../"><i class="fa-solid fa-backward"></i> Go back</a>
     </div>
     <div class="main1 staff_main">
-       
         <div class="login">
             <a href="../">
                 <div class="logo1">
@@ -32,7 +31,7 @@
             <div class="lg_boxes">
                 <form action="" method="POST" style="width: 100%;" class="st_log">
                     {% csrf_token %}
-                    <input type="email" name="email" id="" placeholder="Registered Email"><br>
+                    <input type="email" name="email" id="" placeholder="Email" style="padding-left: 10px;"><br>
                     <input type="submit" value="Send mail" class="bg-danger">
                 </form>
             </div>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 # Create your models here.
  
 class admins(models.Model):
@@ -65,5 +66,11 @@ class Semexam(models.Model):
     bname=models.ForeignKey(Branches,on_delete=models.CASCADE)
     staffname=models.ForeignKey(Staff,on_delete=models.CASCADE)
     
-
+class messeges(models.Model):
+    name=models.TextField()
+    time=models.TimeField()
+    date=models.DateField()
+    subject=models.TextField()
+    messege=models.TextField()
+    read=models.BooleanField(default=False)
 

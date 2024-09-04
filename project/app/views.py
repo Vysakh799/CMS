@@ -4,8 +4,10 @@ import bcrypt
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from datetime import datetime
 
 # Create your views here.
+
 
 def index(request):
     try:
@@ -13,6 +15,21 @@ def index(request):
     except:
         std=False
     return render(request,'index.html',{'std':std})
+
+def contact(request):
+    if request.method=='POST':
+        name=request.POST['Name']
+        subject=request.POST['Subject']
+        messege=request.POST['messege']
+        c_date=datetime.now().date()
+        c_time=datetime.now().time()
+        data=messeges.objects.create(name=name,subject=subject,messege=messege,date=c_date,time=c_time)
+        data.save()
+        print(messege)
+    return render(request,'contact.html')
+
+
+
 #Student
 
 
@@ -86,7 +103,8 @@ def stexamresultview(request):
             ssem=Sem.objects.get(semno=bigsem)
             examresult=Semexam.objects.filter(stud=Student.objects.get(stname=request.session['std']),sem=ssem)
     return render(request,'student/stexamresultview.html',{'std':std,'examresult':examresult,'sems':sems})
-
+def stud_forgotpassword(request):
+    return render(request,'')
 
 
 #Admin
@@ -113,7 +131,7 @@ def admin_login(request):
 def admin_index(request):
     if 'adm' in request.session:
         adm=admins.objects.get(username=request.session['adm'])
-        return render(request,'admin/admin_index.html',{'adm':adm})
+        return render(request,'admin/admin_index.html',{'adm':adm,'msg_count':countmsg(request)})
     else:
          return redirect(index)
 
@@ -208,6 +226,16 @@ def deletestudent(request,pk):
     else:
         return redirect(index)
 
+def countmsg(request):
+    u_msgs=messeges.objects.filter(read=False)
+    msg_len=len(u_msgs)
+    return msg_len
+def admin_viewmessege(request):
+    if 'adm' in request.session:
+        messege=messeges.objects.all()
+        messeges.objects.update(read=True)
+        print(messege)
+    return render(request,'admin/admin_viewmesseges.html',{'messeges':messege})
 
 
 
@@ -342,6 +370,7 @@ def staffforgetpswmail(request):
         email=request.POST['email']
         try:
             data=Staff.objects.get(staffemail=email)
+            # request.session['cngpsw']=data.staffname
             subject='CMS Forgot password'
             path="http://127.0.0.1:8000/staffnewpassword"
             message = f"To set new password click the link below!!\n\n {path}"
@@ -355,6 +384,25 @@ def staffforgetpswmail(request):
     return render(request,'staff/staffforgetpswmail.html')
 
 def staffnewpassword(request):
-    # if 'newpsw' in request.session:/
+    # if 'newpsw' in request.session:
+    if request.method=='POST':
+        email=request.POST['email']
+        password=request.POST['password']
+        cnf_password=request.POST['cnf_password']
+        psw=password.encode('utf-8')
+        salt=bcrypt.gensalt()               #Password Hashing
+        psw_hashed=bcrypt.hashpw(psw,salt)
+        if password==cnf_password:
+            try:
+                data=Staff.objects.filter(staffemail=email).update(staffpassword=psw_hashed.decode('utf-8'))
+                print(data)
+                messages.success(request,"Password Changed Sucessfully")
+            except:
+                messages.warning(request,"User assosiated to this mail does't exist")
+        else:
+                messages.warning(request, "Passwords Doesn't match!!")
+
+
+
 
     return render(request,'staff/staffnewpassword.html')
