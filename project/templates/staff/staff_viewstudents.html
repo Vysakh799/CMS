@@ -31,8 +31,8 @@
                     <ul>
                         <a href="" class="service"><li>Home</li></a>
                         <a href="" class="service"><li>About</li></a>
-                        <a href="" class="service"><li>Contact</li></a>
-                        <a href="st_login" class="service"><li>Logout</li></a>
+                        <a href="contact" class="service"><li>Contact</li></a>
+                        <a href="staff_logout" class="service"><li>Logout</li></a>
                         <li id="do_menu"><i class="fa-solid fa-bars"></i></li>
                         <!-- <a href="" class="menu1" id="up_menu"><li><i class="fa-solid fa-bars"></i></li></a> -->
                     </ul>
@@ -63,7 +63,26 @@
             </div>
             <div class="admin_part2">
             <div class="data">
-                <div class="add"><a href="../addstudents"><i class="fa-solid fa-plus"></i></a></div>
+                <form action="../staff_viewstudents" method="POST">
+                    {% csrf_token %}
+                    <table style="width: 100%;">
+                        <tr>
+                            <td>
+                                <select name="sem" id="" required>
+                                    <option value="" disabled selected>Select Sem</option>
+                                    {% for i in sem %}
+                                    <option value="{{i.semno}}">{{i.semno}}</option>
+                                    {% endfor %}
+                                </select>
+                        
+                            
+                                <input type="submit" value="Search">
+                            </td>
+                            <td><a href="../addstudents"><i class="fa-solid fa-plus"></i></a></td>
+                        </tr>
+                    </table>
+                </form>
+                
             <div class="viewstudents">
                 <table>
                     <tr>

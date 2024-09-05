@@ -59,7 +59,7 @@
             <div class="data" style="margin-top: 200px;">
                 <form action="../stexamresultview" method="POST">
                     {% csrf_token %}
-                    <select name="sem" id="">
+                    <select name="sem" id="" required>
                         <option value="" selected disabled>Select Sem</option>
                         {% for i in sems %}
                         <option value="{{i.semno}}">{{i.semno}}</option>

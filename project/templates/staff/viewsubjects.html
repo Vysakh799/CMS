@@ -36,8 +36,8 @@
                     <ul>
                         <a href="" class="service"><li>Home</li></a>
                         <a href="" class="service"><li>About</li></a>
-                        <a href="" class="service"><li>Messeges</li></a>
-                        <a href="st_login" class="service"><li>Logout</li></a>
+                        <a href="contact" class="service"><li>Contact</li></a>
+                        <a href="staff_logout" class="service"><li>Logout</li></a>
                         <li id="do_menu"><i class="fa-solid fa-bars"></i></li>
                         <!-- <a href="" class="menu1" id="up_menu"><li><i class="fa-solid fa-bars"></i></li></a> -->
                     </ul>
@@ -76,7 +76,7 @@
                 <div class="filtration">
                     <form action="../viewsubjects" method="POST">
                         {% csrf_token %}
-                        <select name="sem" id="">
+                        <select name="sem" id="" required>
                             <option value="" disabled selected>Select sem</option>
                             {% for i in sems %}
                             <option value="{{i.semno}}">{{i.semno}}</option>

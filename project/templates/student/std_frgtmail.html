@@ -4,11 +4,10 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Student</title>
+    <title>Student | Forgetpassword</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <script src="https://kit.fontawesome.com/7da30b5c41.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
     <script>
         $(document).ready(function(){
             $("#closebutton").click(function(){
@@ -31,17 +30,16 @@
             <div class="login">
                 <a href="../">
                     <div class="logo1">
-                        <p>                    Student Login
+                        <p>                    Student ForgetPassword
                         </p>
                     </div>
                 </a>
                 <div class="lg_boxes">
-                    <form action="../st_login" method="POST" style="width: 100%;" class="st_log">
+                    <form action="../std_frgtmail" method="POST" style="width: 100%;" class="st_log">
                         {% csrf_token %}
-                        <input type="text" name="username" id="" placeholder="Username"><br>
-                        <input type="password" name="password" id="" placeholder="Password""><br> 
-                        <input type="submit" value="Submit" class="bg-danger">
-                        <a href="../std_frgtmail">forgot password ??</a>
+                        <input type="email" name="email" id="" placeholder="Enter Registered mail"><br> 
+                        <input type="submit" value="Send mail" class="bg-danger">
+                        <!-- <a href="../std_frgtmail">forgot password ??</a> -->
                     </form>
                 </div>
             </div>

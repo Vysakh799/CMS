@@ -12,6 +12,7 @@ class admins(models.Model):
 class Branches(models. Model):
     aname=models.ForeignKey(admins,on_delete=models.CASCADE)
     bname=models.TextField()
+    status=models.BooleanField(default=True)
 
     def __str__(self):
         return self.bname
@@ -24,6 +25,8 @@ class Staff(models.Model):
     staffaddress=models.TextField()
     staffbranch=models.ForeignKey(Branches,on_delete=models.CASCADE)
     staffpassword=models.TextField()
+    status=models.BooleanField(default=True)
+
 
     def __str__(self):
         return self.staffname

@@ -7,14 +7,16 @@ from django.conf import settings
 from datetime import datetime
 
 # Create your views here.
-
+def courses(request):
+    branches=Branches.objects.filter(status=True)
+    return branches
 
 def index(request):
     try:
         std=request.session['std']
     except:
         std=False
-    return render(request,'index.html',{'std':std})
+    return render(request,'index.html',{'std':std,'courses':courses(request)})
 
 def contact(request):
     if request.method=='POST':
@@ -65,7 +67,7 @@ def st_logout(request):
     
 
 def studentnewpassword(request):
-    if 'std' in request.session:
+    if 'std' in request.session :
         if request.method=='POST':
             password=request.POST['password']
             cnfpassword=request.POST['cnfpassword']
@@ -103,8 +105,42 @@ def stexamresultview(request):
             ssem=Sem.objects.get(semno=bigsem)
             examresult=Semexam.objects.filter(stud=Student.objects.get(stname=request.session['std']),sem=ssem)
     return render(request,'student/stexamresultview.html',{'std':std,'examresult':examresult,'sems':sems})
-def stud_forgotpassword(request):
-    return render(request,'')
+def std_frgtmail(request):
+    if request.method=='POST':
+        email=request.POST['email']
+        try:
+            data=Student.objects.get(stemail=email)
+            # request.session['cngpsw']=data.staffname
+            subject='CMS Forgot password'
+            path="http://127.0.0.1:8000/studforgotpassword"
+            message = f"To set new password click the link below!!\n\n {path}"
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list= [data.stemail,]
+            send_mail(subject,message,email_from,recipient_list)
+            # request.session['newpsw']=data.staffemail
+            messages.success(request,"Email sent ! ")
+        except:
+            messages.success(request,"Email doesn't match ! ")
+    return render(request,'student/std_frgtmail.html')
+
+def studforgotpassword(request):
+    if request.method=='POST':
+        email=request.POST['email']
+        password=request.POST['password']
+        cnf_password=request.POST['cnfpassword']
+        psw=password.encode('utf-8')
+        salt=bcrypt.gensalt()               #Password Hashing
+        psw_hashed=bcrypt.hashpw(psw,salt)
+        if password==cnf_password:
+            try:
+                data=Student.objects.filter(stemail=email).update(stpassword=psw_hashed.decode('utf-8'))
+                print(data)
+                messages.success(request,"Password Changed Sucessfully")
+            except:
+                messages.warning(request,"User assosiated to this mail does't exist")
+        else:
+                messages.warning(request, "Passwords Doesn't match!!")
+    return render(request,'student/studforgotpassword.html')
 
 
 #Admin
@@ -128,6 +164,12 @@ def admin_login(request):
 
     return render(request,'admin/admin_login.html')
 
+def adm_logout(request):
+    if 'adm' in request.session:
+        del request.session['adm']
+        return redirect(index)
+    else:
+        return redirect(index)
 def admin_index(request):
     if 'adm' in request.session:
         adm=admins.objects.get(username=request.session['adm'])
@@ -137,7 +179,7 @@ def admin_index(request):
 
 def admstaff(request):
     if 'adm' in request.session:
-        branches=Branches.objects.filter(aname=admins.objects.get(username=request.session['adm']))
+        branches=Branches.objects.filter(aname=admins.objects.get(username=request.session['adm']),status=True)
         if request.method=='POST':
             branchname=request.POST['branch']
             print(branchname)
@@ -151,7 +193,7 @@ def admstaff(request):
     
 def addstaff(request):
     if 'adm' in request.session:
-        branches=Branches.objects.filter(aname=admins.objects.get(username=request.session['adm']))
+        branches=Branches.objects.filter(aname=admins.objects.get(username=request.session['adm']),status=True)
         if request.method=='POST':
             staffname=request.POST['staffname']
             staffemail=request.POST['staffemail']
@@ -197,14 +239,24 @@ def admbranch(request):
     else:
         return redirect(index)
     
-def deletebranch(request,pk):
+def deactivebranch(request,pk):
     if 'adm' in request.session:
-        Branches.objects.get(pk=pk).delete()
-        messages.add_message(request,messages.INFO, "Branch Deleted" ,extra_tags="danger")
+        data=Branches.objects.filter(pk=pk).update(status=False)
+        print(data)
+        messages.add_message(request,messages.INFO, "Branch Deactivated" ,extra_tags="danger")
         return redirect(admbranch)
     else:
         return redirect(index)
-    
+
+def activebranch(request,pk):
+        if 'adm' in request.session:
+            data=Branches.objects.filter(pk=pk).update(status=True)
+            print(data)
+            messages.add_message(request,messages.INFO, "Branch Activated" ,extra_tags="danger")
+            return redirect(admbranch)
+        else:
+            return redirect(index)
+
 def viewstudents(request):
     if 'adm' in request.session:
         staffs=Staff.objects.filter(aname=admins.objects.get(username=request.session['adm']))
@@ -260,6 +312,14 @@ def staff_login(request):
 
     return render(request,"staff/staff_login.html")
 
+def staff_logout(request):
+    if 'stf' in request.session:
+        del request.session['stf']
+        return redirect(index)
+    else:
+        return redirect(index)
+    
+
 def staffindex(request):
     if 'stf' in request.session:
         return render(request,'staff/staffindex.html')
@@ -269,7 +329,7 @@ def staffindex(request):
 def addstudents(request):
     if 'stf' in request.session:
         sems=Sem.objects.all()
-        branches=Branches.objects.all()
+        branches=Branches.objects.filter(status=True)
         if request.method=='POST':
             stname=request.POST['stname']
             stregno=request.POST['stregno']
@@ -297,9 +357,15 @@ def addstudents(request):
     
 
 def staff_viewstudents(request):
-    staff=Staff.objects.get(staffname=request.session['stf'])
-    students=Student.objects.filter(staffname=staff)
-    return render(request,'staff/staff_viewstudents.html',{'students':students})
+    if 'stf' in request.session:
+        staff=Staff.objects.get(staffname=request.session['stf'])
+        sems=Sem.objects.all()
+        if request.method=='POST':
+                sem=request.POST['sem']
+                students=Student.objects.filter(staffname=staff,ssem=Sem.objects.get(semno=sem))
+        else:
+            students=Student.objects.filter(staffname=staff)
+    return render(request,'staff/staff_viewstudents.html',{'students':students,'sem':sems})
 
 
 def admsubjects(request):
@@ -323,8 +389,9 @@ def viewsubjects(request):
         staff=Staff.objects.get(staffname=request.session['stf'])
 
         if request.method=="POST":
-            sem=request.POST['sem']
-            subjects=Subject.objects.filter(bname=staff.staffbranch,sem=Sem.objects.get(semno=sem))  
+                sem=request.POST['sem']
+                subjects=Subject.objects.filter(bname=staff.staffbranch,sem=Sem.objects.get(semno=sem))  
+ 
         else:
             subjects=Subject.objects.filter(bname=staff.staffbranch)
         return render(request,'staff/viewsubjects.html',{'sems':sems,'subjects':subjects})
@@ -336,8 +403,8 @@ def examviewresult(request):
         sem=Sem.objects.all()
         staff=Staff.objects.get(staffname=request.session['stf'])
         if request.method=='POST':
-            ssem=request.POST['sem']
-            examresult=Semexam.objects.filter(staffname=staff,sem=ssem)
+                ssem=request.POST['sem']
+                examresult=Semexam.objects.filter(staffname=staff,sem=ssem)
             # print(examresult)
         else:
             examresult=Semexam.objects.filter(staffname=staff)
@@ -401,8 +468,19 @@ def staffnewpassword(request):
                 messages.warning(request,"User assosiated to this mail does't exist")
         else:
                 messages.warning(request, "Passwords Doesn't match!!")
-
-
-
-
     return render(request,'staff/staffnewpassword.html')
+
+
+def deactivestaff(request,pk):
+    if 'adm' in request.session:
+        Staff.objects.filter(pk=pk).update(status=False)
+        return redirect(admstaff)
+    else:
+        return redirect(index)
+
+def activestaff(request,pk):
+    if 'adm' in request.session:
+        Staff.objects.filter(pk=pk).update(status=True)
+        return redirect(admstaff)
+    else:
+        return redirect(index)

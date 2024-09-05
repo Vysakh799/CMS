@@ -605,7 +605,28 @@ input[type='submit']{
     font-size: 12px;
     top: 2px;
     right: 90px;
-
+}
+.links .c_dropdown{
+    position: absolute;
+    background-color: rgba(94, 93, 93, 0.863);
+    display: none;
+    padding: 10px;
+    border-radius: 10px;
+    /* margin-top: 10px; */
+}
+.branches{
+    display: flex;
+    flex-direction: column;
+}
+.links .c_dropdown a{
+    margin-bottom: 10px;
+}
+.links .c_dropdown a:hover{
+    transform: scale(1.05);
+    transition: all ease 0.3s;
+}
+.c_hover{
+    background-color: red;
 }
 
 
