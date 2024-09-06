@@ -28,13 +28,13 @@
 <body>
     <div class="main">
         <div class="nav">
-            <div class="navigation" style="background-color: rgb(16, 48, 21);">
+            <div class="navigation" >
                 <div class="logo">
-                    <img src="{% static 'images/clogo.png' %}" alt="">
+                    <a href="../admin_index"><img src="{% static 'images/clogo.png' %}" alt=""></a>
                 </div>
                 <div class="links">
                     <ul>
-                        <a href="" class="service"><li>Home</li></a>
+                        <a href="../admin_index" class="service"><li>Home</li></a>
                         <a href="" class="service"><li>About</li></a>
                         <a href="../admin_viewmessege" class="service"><li>Messeges</li>{% if msg_count is 0 %}{% else %} <p id="msgcount">{{msg_count}}</p>{% endif %}</a>
                         <a href="../adm_logout" class="service"><li>Logout</li></a>
@@ -56,7 +56,7 @@
         </div>
         <div class="admin_main">
             <div class="admin_part1">
-                <a href="../admbranch"><div class="nav1">
+                <a href="../admbranch"><div class="nav1 active">
                     Branches
                 </div></a>
                 <a href="../admstaff"><div class="nav1">
@@ -67,14 +67,19 @@
                 </div></a>
                 
             </div>
-            <div class="admin_part2">
+            <div class="admin_part2 admin">
                 
-            <div class="admbutton">
+            <div class="cntr">
                 <div class="branchadd">
                     <form action="addbranch" method="POST" >
                         {% csrf_token %}
-                        <input type="text" name="branchname" id="" placeholder="Branch Name" required>
-                        <input type="submit" value="Add">    
+                        <table>
+                            <tr>
+                                <td><input type="text" name="branchname" id="" placeholder="Branch Name" required></td>
+                                <td><input type="submit" value="Add">    
+                                </td>
+                            </tr>
+                        </table>
                     </form>
                 </div>
                 <div class="branches">
@@ -82,6 +87,7 @@
                         <tr>
                             <th>Sl.no</th>
                             <th>Branch Name</th>
+                            <th>Status</th>
                         </tr>
                         {% for i in data %}
                         <tr>

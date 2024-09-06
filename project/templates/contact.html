@@ -14,7 +14,11 @@
                 $("#drop_sec").toggle(500);
             });
         });
-
+        $(document).ready(function(){
+            $("#c_drop").click(function(){
+                $("#c_courses").toggle(500);
+            });
+        });
     </script>
     <style>
         .mySlides {display:none;}
@@ -29,9 +33,18 @@
                 </div>
                 <div class="links">
                     <ul>
-                        <a href="" class="service"><li>Home</li></a>
-                        <a href="" class="service"><li>Courses</li></a>
-                        <a href="" class="service"><li>Contact</li></a>
+                        <a href="../" class="service"><li>Home</li></a>
+                        <div>
+                            <li id="c_drop">Courses</li>
+                            <div class="c_dropdown" id="c_courses">
+                                <div class="branches">
+                                {% for i in courses %}
+                                <a href="#">{{i.bname}}</a>
+                                {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <a href="contact" class="service"><li>Contact</li></a>
                         <a href="" class="service"><li>About</li></a>
                         {% if std %}
                         <a href="../stexamresultview" class="service"><li>Exam Result</li></a>

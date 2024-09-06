@@ -23,13 +23,13 @@
 <body>
     <div class="main">
         <div class="nav">
-            <div class="navigation" style="background-color: rgb(16, 48, 21);">
+            <div class="navigation" >
                 <div class="logo">
-                    <img src="{% static 'images/clogo.png' %}" alt="">
+                    <a href="../admin_index"><img src="{% static 'images/clogo.png' %}" alt=""></a>
                 </div>
                 <div class="links">
                     <ul>
-                        <a href="" class="service"><li>Home</li></a>
+                        <a href="../admin_index" class="service"><li>Home</li></a>
                         <a href="" class="service"><li>About</li></a>
                         <a href="../admin_viewmessege" class="service"><li>Messeges</li>{% if msg_count is 0 %}{% else %} <p id="msgcount">{{msg_count}}</p>{% endif %}</a>
                         <a href="../adm_logout" class="service"><li>Logout</li></a>
@@ -61,7 +61,7 @@
                     Students
                 </div></a>
             </div>
-            <div class="admin_part2">
+            <div class="admin_part2 admin">
             <h1>Welcome {{adm.username}}</h1>
             <!-- <div class="parts">
                 

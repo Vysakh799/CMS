@@ -22,7 +22,7 @@ body{
     display: grid;
     grid-template-areas: 'logo links links links';
     height: 80px;
-    background-color: rgba(4, 30, 7, 0.845);
+    background-color: rgb(27, 29, 27);
     /* position: fixed; */
     width: 100%;
     /* z-index: 10; */
@@ -244,7 +244,7 @@ ol li{
     flex-wrap: wrap;
 }
 .need{
-    background-color: rgba(4, 30, 7, 0.845);
+    background-color: rgb(25, 27, 25);
     width: 200px;
     height: 200px;
     margin: 10px;
@@ -257,7 +257,7 @@ ol li{
     color: white;
 }
 .need:hover{
-    background-color: rgba(16, 100, 26, 0.845);
+    background-color: rgb(61, 61, 61);
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
     transition: ease 0.5s;
 
@@ -475,7 +475,7 @@ footer{
 .admin_part1{
     height: 90vh;
     width: 200px;
-    background-color: rgb(16, 48, 21);
+    background-color: rgb(27, 29, 27);
 }
 .admin_part1 a{
     color: white;
@@ -497,6 +497,8 @@ footer{
 .messege1{
     margin: 0px;
     position: absolute;
+    top: 80px;
+    right: 0px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -507,7 +509,7 @@ footer{
     padding-left: 15px;
     border-radius: 25px;
     right: 0px;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
 
     /* border: 2px solid rgb(15, 15, 15); */
 }
@@ -628,9 +630,160 @@ input[type='submit']{
 .c_hover{
     background-color: red;
 }
+.admin_main .admin{
+    background-image:linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(../images/1717062061758.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+table{
+    text-align: center;
+    width: 100%;
+}
+.admin h1{
+    color: white;
+    font-size: 55px;
+    margin-top: -50px;
+}
+.admin_main .cntr{
+    background-color: rgba(128, 128, 128, 0.708);
+    padding: 20px;
+    width:fit-content;
+    border-radius: 20px;
+}
+.admin button{
+    height: 40px;
+    border: none;
+    border-radius: 12px;
+    color: white;
+}
+.admin button:hover{
+    transform: scale(1.05);
+}
+.admin .branchadd input{
+    height: 30px;
+    border-radius: 20px;
+    border: none;
+}
+.admin .branchadd {
+    margin-bottom: 20px;
+}
+.admin .branchadd input[type='text']{
+    padding-left: 10px;
+}
+ .branchadd input[type='submit']:hover{
+    transform: scale(1.05);
+    background-color: rgb(3, 76, 3);
+}
+.active{
+    font-size: 18px;
+    font-weight: 500;
+    background-color: gray;
+}
+.addbtn{
+    background-color:green;
+}
+.addbtn:hover{
+    background-color:rgb(13, 77, 13);
+}
+.form{
+    width: 100%;
+}
+.select{
+    display: flex;
+    width: 100%;
+    /* background-color: red; */
+    justify-content: center;
+}
+.staffadd input{
+    width: 300px;
+    height: 30px;
+    border-radius: 15px;
+    border: none;
+}
+.staffadd textarea{
+    width: 300px;
+    border-radius: 15px;
+    padding-left: 10px;
+}
+.staffadd select{
+    width: 310px;
+}
+.staffadd input[type='text'],input[type='email']{
+    padding-left: 10px;
+}
 
+.admin_main .staff{
+    background-image:linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../images/1_P4i496hIgueeUg7CTpMcmw.jpg');
+}
+.admin_main .staff h1{
+    font-size: 60px;
+    margin-top: -55px;
+    color: white;
+}
 
-
+.staff  .stdadd input,.staff .branchadd input{
+    height: 30px;
+    width: 300px;
+    border-radius: 12px;
+    border: none;
+}
+.staff input[type='text']{
+    padding-left: 10px;
+}
+.staff textarea{
+    width: 300px;
+    height: 50px;
+    border: none;
+    border-radius: 12px;
+    padding-left: 10px;
+}
+.staff select{
+    width: 310px;
+}
+.filtration{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.admsubject button{
+    background-color: green;
+    border: none;
+    border-radius: 12px;
+    height: 30px;
+    color: white;
+}
+.admsubject button:hover{
+    background-color: rgb(29, 75, 29);
+}
+.cntr .search{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search .addresult button{
+    background-color: green;
+    border: none;
+    border-radius: 12px;
+    height: 30px;
+    color: white;
+}
+.search .addresult button:hover{
+    background-color: rgb(28, 79, 28);
+}
+.form input{
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 12px;
+}
+.banner .data select{
+    width: 300px;
+}
+.examresult{
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
 /* Media Query */
 @media (min-width:2560px){
     .links ul li{

@@ -24,6 +24,9 @@ urlpatterns = [
     path('staffforgetpswmail',views.staffforgetpswmail),
     path('staffnewpassword',views.staffnewpassword),
     path('staff_logout',views.staff_logout),
+    path('deletestudents/<pk>',views.deletestudents),
+    path('deletesubject/<pk>',views.deletesubject),
+    path('deleteresult/<pk>',views.deleteresult),
     
     #Admin
     path('admin_login',views.admin_login),

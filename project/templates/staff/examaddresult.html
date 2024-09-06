@@ -27,13 +27,13 @@
 <body>
     <div class="main">
         <div class="nav">
-            <div class="navigation" style="background-color: rgb(16, 48, 21);">
+            <div class="navigation" >
                 <div class="logo">
-                    <img src="{% static 'images/clogo.png' %}" alt="">
+                    <a href="../staffindex"><img src="{% static 'images/clogo.png' %}" alt=""></a>
                 </div>
                 <div class="links">
                     <ul>
-                        <a href="" class="service"><li>Home</li></a>
+                        <a href="../staffindex" class="service"><li>Home</li></a>
                         <a href="" class="service"><li>About</li></a>
                         <a href="contact" class="service"><li>Contact</li></a>
                         <a href="staff_logout" class="service"><li>Logout</li></a>
@@ -61,41 +61,58 @@
                 <a href="../viewsubjects"><div class="nav1">
                     Subjects
                 </div></a>
-                <a href="../examviewresult"><div class="nav1">
+                <a href="../examviewresult"><div class="nav1 active">
                     Exam
                 </div></a>
                 
             </div>
-            <div class="admin_part2">
-            <div class="form">
+            <div class="admin_part2 staff">
+            <div class="form cntr">
                 <form action="../examaddresult" method="POST">
                     {% csrf_token %}
-                    <!-- <input type="text" name="stname" id="" placeholder="Name of the student"> -->
-                    <select name="stregno" id="">
-                        <option value="" disabled selected>Select Regno</option>
-                        {% for i in regno %}
-                        <option value="{{i.stregno}}">{{i.stregno}}</option>
-                        {% endfor %}
-                    </select>
-                    <!-- <input type="text" name="subjectname" placeholder="Subject"> -->
+                    <table cellpadding="5px">
+                        <tr>
+                            <td>
+                                <select name="stregno" id="">
+                                    <option value="" disabled selected>Select Student</option>
+                                    {% for i in regno %}
+                                    <option value="{{i.stregno}}">{{i.stregno}} | {{i.stname}}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select name="subjectname" id="">
+                                    <option value="" disabled selected>Select Subject</option>
+                                    {% for i in subjects %}
+                                    <option value="{{i.subjectname}}">{{i.subjectname}}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="number" name="mark" id="" placeholder="Mark" style="padding-left: 10px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select name="sem" id="">
+                                    <option value="" disabled selected>Select Sem</option>
+                                    {% for i in sem %}
+                                    <option value="{{i.semno}}">{{i.semno}}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="submit" value="Add">
+                            </td>
+                        </tr>
+                    </table>
                     
-                    <!-- <input type="text" name="stadmseno" id="" placeholder="Adm.no"> -->
-                    <select name="subjectname" id="">
-                        <option value="" disabled selected>Select Subject</option>
-                        {% for i in subjects %}
-                        <option value="{{i.subjectname}}">{{i.subjectname}}</option>
-                        {% endfor %}
-                    </select>
-                    <input type="number" name="mark" id="" placeholder="Mark">
-                    <select name="sem" id="">
-                        <option value="" disabled selected>Select Sem</option>
-                        {% for i in sem %}
-                        <option value="{{i.semno}}">{{i.semno}}</option>
-                        {% endfor %}
-                    </select>
-                    
-                    
-                    <input type="submit" value="Add">
                 </form>
             </div>
            </div>

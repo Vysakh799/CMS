@@ -14,7 +14,11 @@
                 $("#drop_sec").toggle(500);
             });
         });
-
+        $(document).ready(function(){
+            $("#c_drop").click(function(){
+                $("#c_courses").toggle(500);
+            });
+        });
     </script>
     <style>
         .mySlides {display:none;}
@@ -25,12 +29,22 @@
         <div class="nav">
             <div class="navigation">
                 <div class="logo">
-                    <img src="{% static 'images/clogo.png' %}" alt="">
+                    <a href="../"><img src="{% static 'images/clogo.png' %}" alt=""></a>
                 </div>
                 <div class="links">
                     <ul>
-                        <a href="" class="service"><li>Home</li></a>
-                        <a href="" class="service"><li>Courses</li></a>
+                        <a href="../" class="service"><li>Home</li></a>
+                        <div>
+                            <li id="c_drop">Courses</li>
+                            <div class="c_dropdown" id="c_courses">
+                                <div class="branches">
+                                {% for i in courses %}
+                                <a href="#">{{i.bname}}</a>
+                                {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <a href="contact" class="service"><li>Contact</li></a>
                         <a href="" class="service"><li>About</li></a>
                         {% if std %}
                         <a href="../stexamresultview" class="service"><li>Exam Result</li></a>
@@ -56,22 +70,30 @@
             </div>
         </div>
         <div class="banner">
-            <div class="data" style="margin-top: 200px;">
+            <div class="data examresult" style="margin-top: 200px;">
                 <form action="../stexamresultview" method="POST">
                     {% csrf_token %}
-                    <select name="sem" id="" required>
-                        <option value="" selected disabled>Select Sem</option>
-                        {% for i in sems %}
-                        <option value="{{i.semno}}">{{i.semno}}</option>
-                        {% endfor %}
-                    </select>
-                    <input type="submit" value="Search">
+                    <table>
+                        <tr>
+                            <td><select name="sem" id="" required>
+                                <option value="" selected disabled>Select Sem</option>
+                                {% for i in sems %}
+                                <option value="{{i.semno}}">{{i.semno}}</option>
+                                {% endfor %}
+                            </select></td>
+
+                            <td><input type="submit" value="Search"></td>
+                        </tr>
+                    </table>
+                    
+                    
                 </form>
                 <table style="margin-top: 10px;">
                     <tr>
                         <th>Sl.no</th>
                         <th>Reg.no</th>
                         <th>Subject</th>
+                        <th>Sem</th>
                         <th>Mark</th>
                     </tr>
                     <tr>
@@ -79,6 +101,7 @@
                         <td>{{forloop.counter}}</td>
                         <td>{{i.stud.stregno}}</td>
                         <td>{{i.subname.subjectname}}</td>
+                        <td>{{i.sem}}</td>
                         <td>{{i.mark}}</td>
                         {% endfor %}
                     </tr>

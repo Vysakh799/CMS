@@ -19,6 +19,10 @@ def index(request):
     return render(request,'index.html',{'std':std,'courses':courses(request)})
 
 def contact(request):
+    try:
+        std=request.session['std']
+    except:
+        std=False
     if request.method=='POST':
         name=request.POST['Name']
         subject=request.POST['Subject']
@@ -28,7 +32,7 @@ def contact(request):
         data=messeges.objects.create(name=name,subject=subject,messege=messege,date=c_date,time=c_time)
         data.save()
         print(messege)
-    return render(request,'contact.html')
+    return render(request,'contact.html',{'std':std,'courses':courses(request)})
 
 
 
@@ -104,7 +108,7 @@ def stexamresultview(request):
             # print(bigsem)
             ssem=Sem.objects.get(semno=bigsem)
             examresult=Semexam.objects.filter(stud=Student.objects.get(stname=request.session['std']),sem=ssem)
-    return render(request,'student/stexamresultview.html',{'std':std,'examresult':examresult,'sems':sems})
+    return render(request,'student/stexamresultview.html',{'std':std,'examresult':examresult,'sems':sems,'courses':courses(request)})
 def std_frgtmail(request):
     if request.method=='POST':
         email=request.POST['email']
@@ -187,7 +191,7 @@ def admstaff(request):
             staffs=Staff.objects.filter(staffbranch=branch)
         else:
             staffs=Staff.objects.all()
-        return render(request,'admin/admstaff.html',{'branches':branches,'staffs':staffs})
+        return render(request,'admin/admstaff.html',{'branches':branches,'staffs':staffs,'msg_count':countmsg(request)})
     else:
         return render(index)
     
@@ -214,7 +218,7 @@ def addstaff(request):
             recipient_list= [staffemail,]
             send_mail(subject,message,email_from,recipient_list)
             messages.success(request,"Email sent ! ")
-        return render(request,'admin/addstaff.html',{'branches':branches})
+        return render(request,'admin/addstaff.html',{'branches':branches,'msg_count':countmsg(request)})
     else:
         return redirect(index)
 
@@ -224,8 +228,19 @@ def addbranch(request):
         adm=admins.objects.get(username=request.session['adm'])
         if request.method=='POST':
             bname=request.POST['branchname']
-            data=Branches.objects.create(aname=adm,bname=bname)
-            data.save()
+            branchnames=Branches.objects.all()
+            c=0
+            try:
+                for i in branchnames:
+                    if i.bname==bname:
+                        c=1
+            except:
+                pass
+            if c==1:
+                messages.add_message(request,messages.INFO, "Branch Already Exists" ,extra_tags="danger")
+            else:
+                data=Branches.objects.create(aname=adm,bname=bname)
+                data.save()
         return redirect(admbranch)
     else:
         return redirect(index)
@@ -235,7 +250,7 @@ def admbranch(request):
     if 'adm' in request.session:
         # messages.warning(request,"Branch Deleted")
         data=Branches.objects.filter(aname=admins.objects.get(username=request.session['adm']))
-        return render(request,'admin/addbranch.html',{'data':data})
+        return render(request,'admin/addbranch.html',{'data':data,'msg_count':countmsg(request)})
     else:
         return redirect(index)
     
@@ -266,7 +281,7 @@ def viewstudents(request):
             data=Student.objects.filter(staffname=stf)
         else:
             data=Student.objects.all()
-        return render(request,'admin/viewstudents.html',{'staffs':staffs,'data':data})
+        return render(request,'admin/viewstudents.html',{'staffs':staffs,'data':data,'msg_count':countmsg(request)})
     else:
         return redirect(index)
 
@@ -287,8 +302,20 @@ def admin_viewmessege(request):
         messege=messeges.objects.all()
         messeges.objects.update(read=True)
         print(messege)
-    return render(request,'admin/admin_viewmesseges.html',{'messeges':messege})
+    return render(request,'admin/admin_viewmesseges.html',{'messeges':messege,'msg_count':countmsg(request)})
+def deactivestaff(request,pk):
+    if 'adm' in request.session:
+        Staff.objects.filter(pk=pk).update(status=False)
+        return redirect(admstaff)
+    else:
+        return redirect(index)
 
+def activestaff(request,pk):
+    if 'adm' in request.session:
+        Staff.objects.filter(pk=pk).update(status=True)
+        return redirect(admstaff)
+    else:
+        return redirect(index)
 
 
 #STAFF
@@ -303,10 +330,18 @@ def staff_login(request):
         psw_hashed=bcrypt.hashpw(psw,salt)
         try:
             staff=Staff.objects.get(staffemail=staffemail)
-            if bcrypt.checkpw(psw,staff.staffpassword.encode('utf-8')):
-                    request.session['stf']=staff.staffname  
-                        # messages.success(request, "Login successfully completed!") 
-                    return redirect(staffindex)
+            if(staff.status==True):
+                if bcrypt.checkpw(psw,staff.staffpassword.encode('utf-8')):
+                        request.session['stf']=staff.staffname  
+                            # messages.success(request, "Login successfully completed!") 
+                        return redirect(staffindex)
+                else:
+                    messages.add_message(request,messages.INFO, "Incorrect Password" ,extra_tags="danger")
+            else:
+                messages.add_message(request,messages.INFO, "Account is currently Deactivated" ,extra_tags="danger")
+
+
+
         except:
             messages.add_message(request,messages.INFO, "Incorrect Username Or Password" ,extra_tags="danger")
 
@@ -322,7 +357,8 @@ def staff_logout(request):
 
 def staffindex(request):
     if 'stf' in request.session:
-        return render(request,'staff/staffindex.html')
+        staff=Staff.objects.get(staffname=request.session['stf'])
+        return render(request,'staff/staffindex.html',{'staff':staff})
     else:
         return redirect(index)
 
@@ -470,17 +506,23 @@ def staffnewpassword(request):
                 messages.warning(request, "Passwords Doesn't match!!")
     return render(request,'staff/staffnewpassword.html')
 
-
-def deactivestaff(request,pk):
-    if 'adm' in request.session:
-        Staff.objects.filter(pk=pk).update(status=False)
-        return redirect(admstaff)
+def deletestudents(request,pk):
+    if 'stf' in request.session:
+        Student.objects.get(pk=pk).delete()
+        return redirect(staff_viewstudents)
     else:
         return redirect(index)
 
-def activestaff(request,pk):
-    if 'adm' in request.session:
-        Staff.objects.filter(pk=pk).update(status=True)
-        return redirect(admstaff)
+def deletesubject(request,pk):
+    if 'stf' in request.session:
+        Subject.objects.get(pk=pk).delete()
+        return redirect(viewsubjects)
+    else:
+        return redirect(index)
+
+def deleteresult(request,pk):
+    if 'stf' in request.session:
+        Semexam.objects.get(pk=pk).delete()
+        return redirect(examviewresult)
     else:
         return redirect(index)

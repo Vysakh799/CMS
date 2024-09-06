@@ -23,13 +23,13 @@
 <body>
     <div class="main">
         <div class="nav">
-            <div class="navigation" style="background-color: rgb(16, 48, 21);">
+            <div class="navigation">
                 <div class="logo">
-                    <img src="{% static 'images/clogo.png' %}" alt="">
+                    <a href="../admin_index"><img src="{% static 'images/clogo.png' %}" alt=""></a>
                 </div>
                 <div class="links">
                     <ul>
-                        <a href="" class="service"><li>Home</li></a>
+                        <a href="../admin_index" class="service"><li>Home</li></a>
                         <a href="" class="service"><li>About</li></a>
                         <a href="../admin_viewmessege" class="service"><li>Messeges</li>{% if msg_count is 0 %}{% else %} <p id="msgcount">{{msg_count}}</p>{% endif %}</a>
                         <a href="../adm_logout" class="service"><li>Logout</li></a>
@@ -54,31 +54,40 @@
                 <a href="../addbranch"><div class="nav1">
                     Branches
                 </div></a>
-                <a href="../admstaff"><div class="nav1">
+                <a href="../admstaff"><div class="nav1 active">
                     Staffs
                 </div></a>
                 <a href="../viewstudents"><div class="nav1">
                     Students
                 </div></a>
             </div>
-            <div class="admin_part2">
-            <div class="admbutton">
+            <div class="admin_part2 admin">
+            <div class="cntr">
                 <div class="select">
-                    <form action="../admstaff" method="POST">
+                    <div class="form"><form action="../admstaff" method="POST">
                         {% csrf_token %}
-                        <select name="branch" id="" required>
-                            <option value="" disabled selected>Select branch</option>
-                            {% for i in branches %}
-                                <option value="{{i.bname}}">{{i.bname}}</option>
-                            {% endfor %}
-                        </select>
-                        <input type="submit" value="search">
-                    </form>
+                        <table>
+                            <tr>
+                                <td>
+                                    <select name="branch" id="" required>
+                                        <option value="" disabled selected>Select branch</option>
+                                        {% for i in branches %}
+                                            <option value="{{i.bname}}">{{i.bname}}</option>
+                                        {% endfor %}
+                                    </select>
+                                <input type="submit" value="search"></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                        
+                        
+                    </form></div>
+                    <a href="addstaff">
+                        <button class="addbtn">Addstaff</button>
+                    </a>
 
                 </div>
-                <a href="addstaff">
-                    <p>Addstaff</p>
-                </a>
+                
                 <div class="staffs">
                     <table>
                         <tr>
