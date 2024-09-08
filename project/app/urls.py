@@ -43,5 +43,6 @@ urlpatterns = [
     path('deactivestaff/<pk>',views.deactivestaff),
     path('activestaff/<pk>',views.activestaff),
     path('adm_logout',views.adm_logout),
+    path('admin_forgetpassword',views.admin_forgetpasswrd),
 
 ]

@@ -5,6 +5,7 @@ from django.utils import timezone
 class admins(models.Model):
     username=models.TextField()
     password=models.TextField()
+    email=models.TextField(null=True)
     Cad1=models.FileField(null=True)
     Cad2=models.FileField(null=True)
     Cad3=models.FileField(null=True)

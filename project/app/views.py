@@ -40,27 +40,29 @@ def contact(request):
 
 
 def st_login(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         username=request.POST['username']
-        password=request.POST['password']
-        psw=password.encode('utf-8')
-        print(password,username)
+        password= request.POST['password']
+        psw= password.encode('utf-8')
+        
         try:
-            student=Student.objects.get(stregno=username)
-            if bcrypt.checkpw(psw,student.stpassword.encode('utf-8')):
-                    request.session['std']=student.stname
-                    print("logged in ")
-                    if student.setnewpsw==True:
-                        return redirect(index)
-                    else:
-                        return redirect(studentnewpassword)
+            student = Student.objects.get(stregno=username)
+            if bcrypt.checkpw(psw, student.stpassword.encode('utf-8')):
+                request.session['std'] = student.stemail
+                print("Logged in")
+                if student.setnewpsw:
+                    return redirect(index)
+                else:
+                    return redirect(studentnewpassword)
             else:
-                    print('error')
-                    messages.add_message(request,messages.INFO, "Incorrect Password" ,extra_tags="danger")
-        except:
-            messages.add_message(request,messages.INFO, "Incorrect Username or Password" ,extra_tags="danger")
+                print('Incorrect password')
+                messages.add_message(request, messages.INFO, "Incorrect Password", extra_tags="danger")
+        except :
+            messages.add_message(request, messages.INFO, "Incorrect Username or Password", extra_tags="danger")
+            print('Incorrect Username or Password')
 
-    return render(request,'student/student_login.html')
+    return render(request, 'student/student_login.html')
+
 
 def st_logout(request):
     if 'std' in request.session:
@@ -80,7 +82,7 @@ def studentnewpassword(request):
                 psw=password.encode('utf-8')
                 salt=bcrypt.gensalt()               #Password Hashing
                 psw_hashed=bcrypt.hashpw(psw,salt)  
-                Student.objects.filter(stname=request.session['std']).update(stpassword=psw_hashed.decode('utf-8'),setnewpsw=True)
+                Student.objects.filter(stemail=request.session['std']).update(stpassword=psw_hashed.decode('utf-8'),setnewpsw=True)
                 return redirect(index)
             else:
                 messages.add_message(request,messages.INFO, "Password dosent match" ,extra_tags="danger")
@@ -97,17 +99,20 @@ def stexamresultview(request):
         sems=Sem.objects.all()
         if request.method=='POST':
             sem=request.POST['sem']
-            examresult=Semexam.objects.filter(stud=Student.objects.get(stname=request.session['std']),sem=sem)
+            examresult=Semexam.objects.filter(stud=Student.objects.get(stemail=request.session['std']),sem=sem)
 
         else:
-            semexam=Semexam.objects.filter(stud=Student.objects.get(stname=request.session['std']))
+            semexam=Semexam.objects.filter(stud=Student.objects.get(stemail=request.session['std']))
             sem=[]
             for i in semexam:
                 sem.append(i.sem.semno)
-            bigsem=max(sem)
+            try:
+                bigsem=max(sem)
+                ssem=Sem.objects.get(semno=bigsem)
+                examresult=Semexam.objects.filter(stud=Student.objects.get(stemail=request.session['std']),sem=ssem)
+            except:
+                examresult=Semexam.objects.filter(stud=Student.objects.get(stemail=request.session['std']))
             # print(bigsem)
-            ssem=Sem.objects.get(semno=bigsem)
-            examresult=Semexam.objects.filter(stud=Student.objects.get(stname=request.session['std']),sem=ssem)
     return render(request,'student/stexamresultview.html',{'std':std,'examresult':examresult,'sems':sems,'courses':courses(request)})
 def std_frgtmail(request):
     if request.method=='POST':
@@ -174,6 +179,31 @@ def adm_logout(request):
         return redirect(index)
     else:
         return redirect(index)
+    
+def admin_forgetpasswrd(request):
+    if request.method=='POST':
+        email=request.POST['email']
+        n_psw=request.POST['n_psw']
+        cnf_psw=request.POST['cnf_psw']
+        # print(email,n_psw,cnf_psw)
+        try:
+            # adm=admins.objects.get(email=email)
+            if n_psw==cnf_psw:
+                psw=n_psw.encode('utf-8')
+                salt=bcrypt.gensalt()               #Password Hashing
+                psw_hashed=bcrypt.hashpw(psw,salt)
+                admins.objects.filter(email=email).update(password=psw_hashed.decode('utf-8'))
+                messages.add_message(request,messages.INFO, "Password changed pls return to the login page!!" ,extra_tags="danger")
+        except:
+            messages.add_message(request,messages.INFO, "Registered Email does't match" ,extra_tags="danger")
+        return redirect(admin_forgetpasswrd)
+
+    else:
+        # return redirect(admin_forgetpasswrd)
+        return render(request,'admin/admin_forgetpassword.html')
+
+
+
 def admin_index(request):
     if 'adm' in request.session:
         adm=admins.objects.get(username=request.session['adm'])
@@ -183,12 +213,13 @@ def admin_index(request):
 
 def admstaff(request):
     if 'adm' in request.session:
-        branches=Branches.objects.filter(aname=admins.objects.get(username=request.session['adm']),status=True)
+        branches=Branches.objects.filter(aname=admins.objects.get(username=request.session['adm']))
         if request.method=='POST':
             branchname=request.POST['branch']
             print(branchname)
             branch=Branches.objects.get(bname=branchname)
             staffs=Staff.objects.filter(staffbranch=branch)
+            # return redirect(admstaff)
         else:
             staffs=Staff.objects.all()
         return render(request,'admin/admstaff.html',{'branches':branches,'staffs':staffs,'msg_count':countmsg(request)})
@@ -209,15 +240,23 @@ def addstaff(request):
             psw=staffpassword.encode('utf-8')
             salt=bcrypt.gensalt()               #Password Hashing
             psw_hashed=bcrypt.hashpw(psw,salt)
-            data=Staff.objects.create(aname=admins.objects.get(username=request.session['adm']),staffname=staffname,staffemail=staffemail,staffphno=staffphno,staffaddress=staffaddress,staffbranch=bname,staffpassword=psw_hashed.decode('utf-8'))
-            data.save()
-            subject='TDJ CMS'
-            path="http://127.0.0.1:8000/staff"
-            message = f"You have been Registered to the TDJ College CMS system\n\nUsername :{staffemail}\n\nPasssword: {staffpassword}\n\nTo login use this link \n\n{path}"
-            email_from = settings.EMAIL_HOST_USER
-            recipient_list= [staffemail,]
-            send_mail(subject,message,email_from,recipient_list)
-            messages.success(request,"Email sent ! ")
+            staffs=Staff.objects.all()
+            s=0
+            for i in staffs:
+                if i.staffemail==staffemail:
+                    s=1
+            if s==1:
+                messages.success(request,"Staff already Exist")
+            else:
+                data=Staff.objects.create(aname=admins.objects.get(username=request.session['adm']),staffname=staffname,staffemail=staffemail,staffphno=staffphno,staffaddress=staffaddress,staffbranch=bname,staffpassword=psw_hashed.decode('utf-8'))
+                data.save()
+                subject='TDJ CMS'
+                path="http://127.0.0.1:8000/staff"
+                message = f"You have been Registered to the TDJ College CMS system\n\nUsername :{staffemail}\n\nPasssword: {staffpassword}\n\nTo login use this link \n\n{path}"
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list= [staffemail,]
+                send_mail(subject,message,email_from,recipient_list)
+                messages.success(request,"Email sent ! ")
         return render(request,'admin/addstaff.html',{'branches':branches,'msg_count':countmsg(request)})
     else:
         return redirect(index)
@@ -332,7 +371,8 @@ def staff_login(request):
             staff=Staff.objects.get(staffemail=staffemail)
             if(staff.status==True):
                 if bcrypt.checkpw(psw,staff.staffpassword.encode('utf-8')):
-                        request.session['stf']=staff.staffname  
+                        request.session['stf']=staff.staffemail  
+
                             # messages.success(request, "Login successfully completed!") 
                         return redirect(staffindex)
                 else:
@@ -357,7 +397,7 @@ def staff_logout(request):
 
 def staffindex(request):
     if 'stf' in request.session:
-        staff=Staff.objects.get(staffname=request.session['stf'])
+        staff=Staff.objects.get(staffemail=request.session['stf'])
         return render(request,'staff/staffindex.html',{'staff':staff})
     else:
         return redirect(index)
@@ -377,24 +417,39 @@ def addstudents(request):
             staddress=request.POST['staddress']
             branch=Branches.objects.get(bname=bname)
             sem=Sem.objects.get(semno=ssem)
+
             psw=stadmno.encode('utf-8')
             salt=bcrypt.gensalt()               #Password Hashing
             psw_hashed=bcrypt.hashpw(psw,salt)
-            data=Student.objects.create(staffname=Staff.objects.get(staffname=request.session['stf']),stname=stname,stphno=stphno,stregno=stregno,stadmno=stadmno,bname=branch,ssem=sem,stemail=stemail,staddress=staddress,stpassword=psw_hashed.decode('utf-8'))
-            data.save()
-            subject='TDJ College Of Engineering'
-            path="http://127.0.0.1:8000/st_login"
-            message = f"You have been Registered to the TDJ College Of Engineering\n\nUsername :{stregno}\n\nPasssword: {stadmno}\n\nTo login use this link \n\n{path}"
-            email_from = settings.EMAIL_HOST_USER
-            recipient_list= [stemail,]
-            send_mail(subject,message,email_from,recipient_list)
-            messages.success(request,"Email sent ! ")
+
+            student=Student.objects.filter(stemail=stemail,stregno=stregno,stadmno=stadmno)
+            print(student)
+            # st=0
+            # for i in student:
+            #     print("working forloop")
+            #     print(i.stemail,i.stregno,i.stadmno)
+            #     if i.stemail==stemail:
+            #         print("working")
+            #         st=1
+            if student:
+                messages.success(request,"Student Already Exist!!")
+            else:
+                data=Student.objects.create(staffname=Staff.objects.get(staffemail=request.session['stf']),stname=stname,stphno=stphno,stregno=stregno,stadmno=stadmno,bname=branch,ssem=sem,stemail=stemail,staddress=staddress,stpassword=psw_hashed.decode('utf-8'))
+                data.save()
+                print('add')
+                subject='TDJ College Of Engineering'
+                path="http://127.0.0.1:8000/st_login"
+                message = f"You have been Registered to the TDJ College Of Engineering\n\nUsername :{stregno}\n\nPasssword: {stadmno}\n\nTo login use this link \n\n{path}"
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list= [stemail,]
+                send_mail(subject,message,email_from,recipient_list)
+                messages.success(request,"Email sent ! ")
         return render(request,'staff/addstudents.html',{'sem':sems,'branches':branches})
     
 
 def staff_viewstudents(request):
     if 'stf' in request.session:
-        staff=Staff.objects.get(staffname=request.session['stf'])
+        staff=Staff.objects.get(staffemail=request.session['stf'])
         sems=Sem.objects.all()
         if request.method=='POST':
                 sem=request.POST['sem']
@@ -408,7 +463,7 @@ def admsubjects(request):
     if 'stf' in request.session:
         sems=Sem.objects.all()
         # branches=Branches.objects.all()
-        staff=Staff.objects.get(staffname=request.session['stf'])
+        staff=Staff.objects.get(staffemail=request.session['stf'])
         if request.method=='POST':
             subject=request.POST['subjectname']
             sem=request.POST['sem']
@@ -422,7 +477,7 @@ def viewsubjects(request):
     if 'stf' in request.session:
         sems=Sem.objects.all()
         # branches=Branches.objects.all()
-        staff=Staff.objects.get(staffname=request.session['stf'])
+        staff=Staff.objects.get(staffemail=request.session['stf'])
 
         if request.method=="POST":
                 sem=request.POST['sem']
@@ -437,7 +492,7 @@ def viewsubjects(request):
 def examviewresult(request):
     if 'stf' in request.session:
         sem=Sem.objects.all()
-        staff=Staff.objects.get(staffname=request.session['stf'])
+        staff=Staff.objects.get(staffemail=request.session['stf'])
         if request.method=='POST':
                 ssem=request.POST['sem']
                 examresult=Semexam.objects.filter(staffname=staff,sem=ssem)
@@ -449,7 +504,7 @@ def examviewresult(request):
 def examaddresult(request):
     if 'stf' in request.session:
         sems=Sem.objects.all()
-        staff=Staff.objects.get(staffname=request.session['stf'])
+        staff=Staff.objects.get(staffemail=request.session['stf'])
         students=Student.objects.filter(staffname=staff)
         subjects=Subject.objects.filter(bname=staff.staffbranch)
         if request.method=='POST':
