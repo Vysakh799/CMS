@@ -121,7 +121,7 @@ def std_frgtmail(request):
             data=Student.objects.get(stemail=email)
             # request.session['cngpsw']=data.staffname
             subject='CMS Forgot password'
-            path="http://127.0.0.1:8000/studforgotpassword"
+            path="https://cmstdj.pythonanywhere.com/studforgotpassword"
             message = f"To set new password click the link below!!\n\n {path}"
             email_from = settings.EMAIL_HOST_USER
             recipient_list= [data.stemail,]
@@ -251,7 +251,7 @@ def addstaff(request):
                 data=Staff.objects.create(aname=admins.objects.get(username=request.session['adm']),staffname=staffname,staffemail=staffemail,staffphno=staffphno,staffaddress=staffaddress,staffbranch=bname,staffpassword=psw_hashed.decode('utf-8'))
                 data.save()
                 subject='TDJ CMS'
-                path="http://127.0.0.1:8000/staff"
+                path="https://cmstdj.pythonanywhere.com/staff"
                 message = f"You have been Registered to the TDJ College CMS system\n\nUsername :{staffemail}\n\nPasssword: {staffpassword}\n\nTo login use this link \n\n{path}"
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list= [staffemail,]
@@ -422,8 +422,11 @@ def addstudents(request):
             salt=bcrypt.gensalt()               #Password Hashing
             psw_hashed=bcrypt.hashpw(psw,salt)
 
-            student=Student.objects.filter(stemail=stemail,stregno=stregno,stadmno=stadmno)
-            print(student)
+            studentemail=Student.objects.filter(stemail=stemail)
+            studentadmno=Student.objects.filter(stadmno=stadmno)
+            studentregno=Student.objects.filter(stregno=stregno)
+            print(studentregno,studentemail,studentadmno)
+            # print(student)
             # st=0
             # for i in student:
             #     print("working forloop")
@@ -431,14 +434,14 @@ def addstudents(request):
             #     if i.stemail==stemail:
             #         print("working")
             #         st=1
-            if student:
+            if studentemail or studentadmno  or studentregno:
                 messages.success(request,"Student Already Exist!!")
             else:
                 data=Student.objects.create(staffname=Staff.objects.get(staffemail=request.session['stf']),stname=stname,stphno=stphno,stregno=stregno,stadmno=stadmno,bname=branch,ssem=sem,stemail=stemail,staddress=staddress,stpassword=psw_hashed.decode('utf-8'))
                 data.save()
                 print('add')
                 subject='TDJ College Of Engineering'
-                path="http://127.0.0.1:8000/st_login"
+                path="https://cmstdj.pythonanywhere.com/st_login"
                 message = f"You have been Registered to the TDJ College Of Engineering\n\nUsername :{stregno}\n\nPasssword: {stadmno}\n\nTo login use this link \n\n{path}"
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list= [stemail,]
@@ -530,7 +533,7 @@ def staffforgetpswmail(request):
             data=Staff.objects.get(staffemail=email)
             # request.session['cngpsw']=data.staffname
             subject='CMS Forgot password'
-            path="http://127.0.0.1:8000/staffnewpassword"
+            path="https://cmstdj.pythonanywhere.com/staffnewpassword"
             message = f"To set new password click the link below!!\n\n {path}"
             email_from = settings.EMAIL_HOST_USER
             recipient_list= [data.staffemail,]
